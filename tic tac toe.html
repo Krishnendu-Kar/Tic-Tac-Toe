@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="Tic Tac Toe.css">
+</head>
+<body>
+    <main>
+        <h1>Tic Tac Toe Game</h1>
+
+        <div class="game-menu">
+            <h2>Choose Your Mode:</h2>
+            <button id="btn-2p" class="menu-btn">Player vs. Player</button>
+            <button id="btn-computer" class="menu-btn">Player vs. Computer</button>
+        </div>
+        
+        <div class="container hidden">
+            <div class="msg-container">
+                <div class="win-msg" id="win-msg"></div>
+            </div>
+            <div class="game">
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+            </div>
+            <div class="box-count-con">
+                <div class="box-count">Total move played in this match: <span id="box-count"> 0</span></div>
+            </div>
+            
+            <button id="reset" class="reset">New / Reset Game</button>
+            
+            <button id="back-to-menu" class="menu-btn back-btn">Change Mode</button> <div class="score-container">
+                <div class="score-wrapper">
+                    <div class="score-box">
+                        <p>Player X</p>
+                        <span id="score-x">0</span>
+                    </div>
+                    <div class="score-box">
+                        <p>Player O</p>
+                        <span id="score-o">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get the elements
+        const menu = document.querySelector('.game-menu');
+        const gameContainer = document.querySelector('.container');
+        const btn2Player = document.querySelector('#btn-2p');
+        const btnComputer = document.querySelector('#btn-computer');
+
+        // === 2. GET THE NEW BUTTON === -->
+        const btnBackToMenu = document.querySelector('#back-to-menu'); // NEW
+
+        // This function dynamically loads a script file
+        function loadGameScript(scriptName) {
+            const script = document.createElement('script');
+            script.src = scriptName;
+            document.body.appendChild(script);
+        }
+
+        // This function hides the menu and shows the game
+        function startGame() {
+            menu.classList.add('hidden'); // Hide the menu
+            gameContainer.classList.remove('hidden'); // Show the game
+        }
+
+        // --- Event Listeners for the menu buttons ---
+
+        btn2Player.addEventListener('click', () => {
+            startGame();
+            loadGameScript('Tic Tac Toe.js'); // Load 2-player logic
+        });
+
+        btnComputer.addEventListener('click', () => {
+            startGame();
+            loadGameScript('Tic Tac Toe with computer.js'); 
+        });
+
+        // === 3. ADD THIS NEW EVENT LISTENER === -->
+        // This listener reloads the page to go back to the menu
+        btnBackToMenu.addEventListener('click', () => { // NEW
+            location.reload(); // NEW
+        }); // NEW
+    </script>
+</body>
+</html>
