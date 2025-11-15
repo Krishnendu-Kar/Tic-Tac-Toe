@@ -115,12 +115,9 @@ h1{
 
 /* --- Box Count (Now responsive) --- */
 .box-count{
-    /* REMOVED: height: 25px; */
-    /* REMOVED: width: 280px; */
-
-    width: 90vw; /* Match the game board width */
-    max-width: 500px; /* Match the game board max-width */
-
+    width: 75vw; /* Match the game board width */
+    max-width: 400px; /* Match the game board max-width */
+    
     font-size: 1.2rem;
     padding: 10px 20px;
     margin: 20px auto; 
@@ -135,20 +132,21 @@ h1{
 
 /* --- Reset Button (Now responsive) --- */
 .reset{
-    width: 90vw; /* Match the game board width */
-    max-width: 500px; /* Match the game board max-width */
-
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    margin: 20px auto;
+    font-size: 1.2rem; /* Make text bigger */
+    padding: 10px 20px; /* Add more padding */
+    margin: 20px auto;  /* Center it horizontally */
     border-radius: 8px;
     border:none;
-    display: block; 
+    
+    /* === FIX FOR POSITIONING === */
+    display: block; /* This lets margin: auto work for centering */
+    /* position:relative; */ /* No longer needed */
+    /* left: 31vw; */       /* No longer needed */
     
     background: linear-gradient(135deg, #1c9c0b, rgb(0, 255, 213));
     color:rgb(243, 249, 249);
     box-shadow: 0 0 1.2rem rgba(0,0,0,.5);
-    cursor: pointer;
+    cursor: pointer; /* Add a pointer cursor */
 }
 
 .box:active {
@@ -213,8 +211,8 @@ h1{
 
 .back-btn {
     width: 90vw; /* Match the game board width */
-    max-width: 500px; /* Match the game board max-width */
-    background: linear-gradient(135deg, rgb(255, 68, 0) ,#f0e800);
+    max-width: 300px; /* Match the game board max-width */
+    background: linear-gradient(135deg, rgb(8, 0, 255) ,#bc00f0);
     margin: 10px auto; /* Adds a little space */
     padding: 15px 25px; /* Make sure padding is consistent */
 }
