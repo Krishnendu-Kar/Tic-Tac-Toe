@@ -73,7 +73,7 @@ h1{
 .box-count{
     height: 25px;
     /* width: 270px; */
-    max-width: 290px;
+    width: 290px;
     font-size: 1.2rem; /* Make text bigger */
     padding: 10px 8px; /* Add more padding */
     margin: 20px auto;  /* Center it horizontally */
