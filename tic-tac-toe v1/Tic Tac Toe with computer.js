@@ -239,3 +239,21 @@ const findRandomMove = () => {
 
 // --- Event Listeners ---
 resetBtn.addEventListener("click", resetGame);
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') {
+        const restartBtn = document.getElementById('btn-restart') || document.getElementById('reset');
+        const startBtn = document.getElementById('btn-start');
+        
+        if (startBtn && !startBtn.parentElement.classList.contains('hidden')) {
+            startBtn.click();
+            startBtn.blur();
+        } else if (restartBtn) {
+            const gameOver = document.getElementById('game-over');
+            const msgCon = document.querySelector('.msg-container');
+            if ((gameOver && !gameOver.classList.contains('hidden')) || (msgCon && msgCon.style.display !== 'none')) {
+                restartBtn.click();
+                restartBtn.blur();
+            }
+        }
+    }
+});

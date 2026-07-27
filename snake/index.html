@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Snake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme" style="position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: inherit; backdrop-filter: blur(5px);">
+        <i class="ph-duotone ph-sun" id="theme-icon" style="font-size: 1.5rem;"></i>
+    </button>
+    <div class="background-animation"></div>
+    <main>
+        <div class="header">
+            <a href="../index.html" class="btn-back">← Back</a>
+            <div style='display:flex; justify-content:center; align-items:center; margin-bottom: 1rem;'><img src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="Vilarci Logo" style="height: 50px; width: auto; border-radius: 12px; margin-right: 15px; vertical-align: middle;"><h1 class="glow-text">Neon Snake</h1></div>
+        </div>
+        
+        <div class="glass-panel game-container">
+            <div class="scoreboard">
+                <div class="score-card">
+                    <span class="label">Score</span>
+                    <span class="value" id="score">0</span>
+                </div>
+                <div class="score-card">
+                    <span class="label">High Score</span>
+                    <span class="value" id="high-score">0</span>
+                </div>
+            </div>
+            
+            <canvas id="game-canvas" width="400" height="400"></canvas>
+            
+            <div id="game-over" class="hidden">
+                <h2 class="glow-text">Game Over!</h2>
+                <button id="btn-restart" class="btn-primary">Play Again</button>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+<script src="../favicon.js"></script>
+    <script src="../theme.js"></script>
+</body>
+</html>
+
+

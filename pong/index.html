@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Pong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme" style="position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: inherit; backdrop-filter: blur(5px);">
+        <i class="ph-duotone ph-sun" id="theme-icon" style="font-size: 1.5rem;"></i>
+    </button>
+    <div class="background-animation"></div>
+    <main>
+        <div class="header">
+            <a href="../index.html" class="btn-back">← Back</a>
+            <div style='display:flex; justify-content:center; align-items:center; margin-bottom: 1rem;'><img src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="Vilarci Logo" style="height: 50px; width: auto; border-radius: 12px; margin-right: 15px; vertical-align: middle;"><h1 class="glow-text">Neon Pong</h1></div>
+        </div>
+        
+        <div class="glass-panel">
+            <div class="scoreboard">
+                <div class="score-card">
+                    <span class="label">Player</span>
+                    <span class="value" id="score-player">0</span>
+                </div>
+                <div class="score-card">
+                    <span class="label">Computer</span>
+                    <span class="value" id="score-computer">0</span>
+                </div>
+            </div>
+
+            <div class="game-container">
+                <canvas id="gameCanvas"></canvas>
+                <div id="game-over" class="overlay hidden">
+                    <h2 class="glow-text" id="winnerText">You Win!</h2>
+                    <button id="btn-restart" class="btn-primary">Play Again</button>
+                </div>
+                <div id="start-screen" class="overlay">
+                    <h2 class="glow-text" style="font-size: 1.5rem;">Use Mouse/Touch to Move Paddle<br>First to 5 Wins</h2>
+                    <button id="btn-start" class="btn-primary">Start Game</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+<script src="../favicon.js"></script>
+    <script src="../theme.js"></script>
+</body>
+</html>
+
+
