@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="shortcut icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="apple-touch-icon" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="canonical" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;900&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script type="module">
+  import * as G from './arcade-games.js';
+  import * as S from './arcade-store.js';
+  window.ArcadeGames = G; window.ArcadeStore = S;
+  window.dispatchEvent(new Event('arcade-ready'));
+</script>
+<style>
+  body { margin:0; background:#08080a; font-family:'Inter',-apple-system,sans-serif; }
+  a { color:#caff79; text-decoration:none; }
+  a:hover { color:#e8ffcc; }
+  [data-theme] { --bg:#0b0b0e; --surf:#131317; --card:#1a1a1f; --ink:#f5f5f5; --mute:#8a8a93; --line:rgba(255,255,255,.08); --lime:#caff79; --limeText:#caff79; }
+  [data-theme="light"] { --bg:#f5f5f5; --surf:#ffffff; --card:#f1f1f1; --ink:#111111; --mute:#6b6b6b; --line:#dddddd; --limeText:#008000; }
+  [data-scroll]::-webkit-scrollbar { width:8px; }
+  [data-scroll]::-webkit-scrollbar-thumb { background:rgba(255,255,255,.12); border-radius:8px; }
+  [data-shell] { display:grid; grid-template-columns:250px minmax(0,1fr); min-height:100vh; }
+  [data-topnav] { display:none; }
+  @media (max-width: 940px) {
+    [data-shell] { grid-template-columns:minmax(0,1fr); }
+    [data-side] { display:none !important; }
+    [data-topnav] { display:flex !important; }
+    [data-split] { grid-template-columns:minmax(0,1fr) !important; }
+    [data-gameplay] { grid-template-columns:minmax(0,1fr) !important; }
+  }
+  @keyframes popIn { from { transform:scale(.5); opacity:0 } to { transform:scale(1); opacity:1 } }
+  @keyframes fadeUp { from { transform:translateY(12px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+  @keyframes drift { from { transform:translate(0,0) scale(1) } to { transform:translate(5%,4%) scale(1.15) } }
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" data-shell="1" style="background:var(--bg);color:var(--ink);position:relative;transition:background .3s,color .3s;font-family:'Inter',sans-serif">
+
+  <div style="position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0">
+    <div style="position:absolute;width:46vw;height:46vw;border-radius:50%;background:rgba(202,255,121,.10);filter:blur(120px);top:-14vw;left:-8vw;animation:drift 22s infinite alternate cubic-bezier(.4,0,.2,1)"></div>
+    <div style="position:absolute;width:42vw;height:42vw;border-radius:50%;background:rgba(236,72,153,.10);filter:blur(120px);bottom:-16vw;right:-6vw;animation:drift 26s -8s infinite alternate cubic-bezier(.4,0,.2,1)"></div>
+  </div>
+
+  <aside data-side="1" style="position:sticky;top:0;height:100vh;z-index:2;border-right:1px solid var(--line);background:var(--surf);padding:26px 18px;display:flex;flex-direction:column;gap:26px;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:11px">
+      <div style="width:40px;height:40px;border-radius:13px;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none"><i class="ph-duotone ph-game-controller"></i></div>
+      <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;letter-spacing:-.4px;line-height:1.1">Retro<br />Arcade</div>
+    </div>
+
+    <nav style="display:flex;flex-direction:column;gap:4px">
+      <sc-for list="{{ navs }}" as="n" hint-placeholder-count="5">
+        <button onClick="{{ n.pick }}" style="border:0;background:{{ n.bg }};color:{{ n.fg }};font-family:'Inter',sans-serif;font-size:14px;font-weight:600;text-align:left;padding:12px 14px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:12px">
+          <span style="font-size:20px"><i class="{{ n.icon }}"></i></span>
+          <span style="flex:1">{{ n.name }}</span>
+          <sc-if value="{{ n.on }}"><span style="width:6px;height:6px;border-radius:50%;background:currentColor"></span></sc-if>
+        </button>
+      </sc-for>
+    </nav>
+
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--card);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;color:var(--mute)">Current streak</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800">🔥 {{ streakLabel }}</div>
+        <div style="height:6px;border-radius:9999px;background:var(--surf);overflow:hidden"><div style="height:100%;background:var(--lime);width:{{ xpPct }}"></div></div>
+        <div style="font-size:11px;color:var(--mute)">{{ xp }} XP · Level {{ level }}</div>
+      </div>
+      <button onClick="{{ openProfile }}" style="border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;cursor:pointer;padding:6px;display:flex;align-items:center;gap:11px">
+        <span style="width:38px;height:38px;border-radius:13px;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:15px">KK</span>
+        <span style="text-align:left"><span style="display:block;font-size:13px;font-weight:600">Krishnendu</span><span style="display:block;font-size:11px;color:var(--mute)">Level {{ level }}</span></span>
+      </button>
+    </div>
+  </aside>
+
+  <main data-scroll="1" style="position:relative;z-index:1;padding:0 0 60px">
+
+    <div data-topnav="1" style="position:sticky;top:0;z-index:3;gap:8px;padding:12px 16px;background:var(--surf);border-bottom:1px solid var(--line);overflow-x:auto">
+      <sc-for list="{{ navs }}" as="n" hint-placeholder-count="5">
+        <button onClick="{{ n.pick }}" style="border:0;flex:none;background:{{ n.bg }};color:{{ n.fg }};font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9999px;cursor:pointer;display:flex;align-items:center;gap:7px">
+          <span style="font-size:16px"><i class="{{ n.icon }}"></i></span>{{ n.name }}
+        </button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1180px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:30px">
+
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;align-items:stretch">
+          <div style="border-radius:26px;background:var(--lime);color:#111;padding:34px;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:250px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;opacity:.62">Today's challenge</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:clamp(30px,3.4vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.05;text-wrap:pretty">Survive the Impossible AI</div>
+            <div style="font-size:15px;opacity:.72;max-width:420px;text-wrap:pretty">Three rounds of Tic-Tac-Toe V2 against minimax. It never loses — so a draw counts as a win.</div>
+            <div style="font-size:13px;font-weight:700;opacity:.8">{{ challengeText }}</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+              <button onClick="{{ startChallenge }}" style="border:0;background:#111;color:var(--lime);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:14px 26px;border-radius:14px;cursor:pointer">Do it Now ▶</button>
+              <button onClick="{{ openChallenges }}" style="border:1px solid rgba(0,0,0,.22);background:transparent;color:#111;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;padding:14px 22px;border-radius:14px;cursor:pointer">See all challenges</button>
+            </div>
+          </div>
+
+          <div style="border-radius:26px;background:var(--card);padding:26px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:16px;font-weight:700">Your week</div>
+            <div style="display:flex;justify-content:space-between;gap:6px">
+              <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+                  <div style="font-size:11px;color:var(--mute)">{{ d.label }}</div>
+                  <sc-if value="{{ d.done }}"><div style="width:34px;height:34px;border-radius:50%;background:#b4ff9c;color:#111;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700">✓</div></sc-if>
+                  <sc-if value="{{ d.today }}"><div style="width:34px;height:34px;border-radius:50%;border:2px dashed var(--limeText);color:var(--limeText);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ d.n }}</div></sc-if>
+                  <sc-if value="{{ d.todo }}"><div style="width:34px;height:34px;border-radius:50%;background:var(--surf);color:var(--mute);display:flex;align-items:center;justify-content:center;font-size:13px">{{ d.n }}</div></sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:auto">
+              <div style="background:var(--surf);border-radius:14px;padding:12px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:'Outfit',sans-serif">{{ totalPlays }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Games</div></div>
+              <div style="background:var(--surf);border-radius:14px;padding:12px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:'Outfit',sans-serif">{{ winRate }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Win rate</div></div>
+              <div style="background:var(--surf);border-radius:14px;padding:12px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:'Outfit',sans-serif">{{ streak }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Streak</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+            <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.5px">{{ catTitle }}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+                <button onClick="{{ c.pick }}" style="border:0;padding:9px 16px;border-radius:9999px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;background:var(--card);color:var(--mute)">
+                  <sc-if value="{{ c.on }}"><span style="color:var(--limeText);font-weight:700;text-transform:uppercase;letter-spacing:.6px">{{ c.name }}</span></sc-if>
+                  <sc-if value="{{ c.off }}"><span>{{ c.name }}</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px">
+            <sc-for list="{{ games }}" as="g" hint-placeholder-count="8">
+              <button onClick="{{ g.open }}" style="border:0;text-align:left;background:var(--card);border-radius:22px;padding:22px;cursor:pointer;color:var(--ink);font-family:'Inter',sans-serif;display:flex;flex-direction:column;gap:14px;min-height:210px;transition:transform .2s ease" style-hover="transform:translateY(-4px)">
+                <div style="width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:{{ g.wash }};color:{{ g.color }}"><i class="{{ g.icon }}"></i></div>
+                <div style="flex:1">
+                  <div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;line-height:1.2;text-wrap:pretty">{{ g.name }}</div>
+                  <div style="font-size:13px;color:var(--mute);margin-top:6px;line-height:1.5;text-wrap:pretty">{{ g.desc }}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--mute);width:100%">
+                  <span style="display:flex;align-items:center;gap:6px"><i class="ph-fill ph-trophy" style="color:{{ g.color }}"></i>{{ g.bestText }}</span>
+                  <span>{{ g.playText }}</span>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px">
+          <div style="background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:700">Friends leaderboard</div><button onClick="{{ openScores }}" style="border:0;background:transparent;color:var(--limeText);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer">View all</button></div>
+            <sc-for list="{{ boardTop }}" as="r" hint-placeholder-count="4">
+              <div style="border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:12px;background:{{ r.bg }}">
+                <div style="width:20px;font-size:13px;font-weight:700;color:var(--mute)">{{ r.rank }}</div>
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ r.initials }}</div>
+                <div style="flex:1;min-width:0;font-size:14px;font-weight:600">{{ r.name }}</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700">{{ r.score }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:18px;font-weight:700">Recent activity</div>
+            <sc-if value="{{ noActivity }}"><div style="font-size:13px;color:var(--mute);line-height:1.6">Nothing played yet on this device. Every finished game lands here and is saved locally.</div></sc-if>
+            <sc-for list="{{ activity }}" as="a" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)">
+                <span style="font-size:20px;color:{{ a.color }}"><i class="{{ a.icon }}"></i></span>
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ a.name }}</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">{{ a.when }}</span></span>
+                <span style="font-size:13px;font-weight:700;color:{{ a.resColor }}">{{ a.result }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDetail }}">
+      <div style="max-width:1180px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:24px;animation:fadeUp .3s ease-out">
+        <button onClick="{{ goHome }}" style="align-self:flex-start;border:0;background:var(--card);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9999px;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="ph-bold ph-arrow-left"></i>All games</button>
+
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px">
+          <div style="border-radius:26px;padding:40px;display:flex;flex-direction:column;gap:16px;background:{{ sel.wash }}">
+            <div style="font-size:66px;line-height:1;color:{{ sel.color }}"><i class="{{ sel.icon }}"></i></div>
+            <div style="font-family:'Outfit',sans-serif;font-size:clamp(28px,3.2vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.05">{{ sel.name }}</div>
+            <div style="font-size:16px;color:var(--mute);max-width:460px;line-height:1.6;text-wrap:pretty">{{ sel.desc }}</div>
+            <div style="display:flex;gap:26px;margin-top:8px;flex-wrap:wrap">
+              <div><div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800">{{ sel.bestText }}</div><div style="font-size:12px;color:var(--mute)">Best</div></div>
+              <div><div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800">{{ sel.playCount }}</div><div style="font-size:12px;color:var(--mute)">Plays</div></div>
+              <div><div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800">{{ sel.rank }}</div><div style="font-size:12px;color:var(--mute)">Friends rank</div></div>
+            </div>
+            <button onClick="{{ playGame }}" style="align-self:flex-start;margin-top:14px;border:0;background:var(--lime);color:#111;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;padding:16px 34px;border-radius:16px;cursor:pointer">Play Now ▶</button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <sc-if value="{{ sel.isTtt }}">
+              <div style="background:var(--card);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:16px;font-weight:700">Select mode</div>
+                <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+                  <button onClick="{{ m.pick }}" style="border:0;width:100%;text-align:left;border-radius:16px;padding:14px 16px;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;background:var(--surf);color:var(--ink)">
+                    <span style="font-size:21px;color:{{ m.color }}"><i class="{{ m.icon }}"></i></span>
+                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:700">{{ m.name }}</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">{{ m.note }}</span></span>
+                    <sc-if value="{{ m.on }}"><span style="width:22px;height:22px;border-radius:50%;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-size:13px"><i class="ph-bold ph-check"></i></span></sc-if>
+                    <sc-if value="{{ m.off }}"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line)"></span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="background:var(--surf);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:16px;font-weight:700">ℹ️ How to play</div>
+              <div style="font-size:14px;color:var(--mute);line-height:1.6;text-wrap:pretty">{{ sel.how }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isGame }}">
+      <div style="max-width:1150px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:22px;animation:fadeUp .3s ease-out">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+          <button onClick="{{ backToDetail }}" style="border:0;background:var(--card);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9999px;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="ph-bold ph-arrow-left"></i>Back</button>
+          <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;text-align:center">{{ statusText }}</div>
+          <button onClick="{{ resetGame }}" style="border:0;background:var(--card);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9999px;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="ph-bold ph-arrow-counter-clockwise"></i>Restart</button>
+        </div>
+
+        <div data-gameplay="1" style="display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:22px;align-items:start">
+          <div style="position:relative;background:var(--card);border-radius:26px;padding:26px;min-height:420px">
+
+            <sc-if value="{{ isTttGame }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:500px;margin:0 auto">
+                <sc-for list="{{ cells }}" as="c" hint-placeholder-count="9">
+                  <button onClick="{{ c.tap }}" style="position:relative;aspect-ratio:1;border:0;border-radius:22px;background:var(--surf);cursor:pointer;font-family:'Outfit',sans-serif;font-size:clamp(40px,6vw,68px);font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--ink)">
+                    <sc-if value="{{ c.win }}"><span style="position:absolute;inset:0;border-radius:22px;background:rgba(202,255,121,.16);box-shadow:inset 0 0 0 2px rgba(202,255,121,.6)"></span></sc-if>
+                    <sc-if value="{{ c.isX }}"><span style="position:relative;color:#caff79;animation:popIn .18s ease-out;text-shadow:0 0 30px rgba(202,255,121,.45)">X</span></sc-if>
+                    <sc-if value="{{ c.isO }}"><span style="position:relative;color:#ec4899;animation:popIn .18s ease-out;text-shadow:0 0 30px rgba(236,72,153,.45)">O</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isCanvasGame }}">
+              <div style="border-radius:20px;overflow:hidden;background:#0b0b0e">
+                <canvas ref="{{ canvasRef }}" width="720" height="540" style="display:block;width:100%;height:auto"></canvas>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ is2048 }}">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:460px;margin:0 auto">
+                <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="16">
+                  <div style="aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:{{ t.size }};background:{{ t.bg }};color:{{ t.fg }};transition:background .15s">
+                    <sc-if value="{{ t.has }}"><span style="animation:popIn .15s ease-out">{{ t.v }}</span></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="text-align:center;font-size:13px;color:var(--mute);margin-top:18px">Arrow keys or WASD to slide</div>
+            </sc-if>
+
+            <sc-if value="{{ isMemory }}">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:460px;margin:0 auto">
+                <sc-for list="{{ cards }}" as="c" hint-placeholder-count="16">
+                  <button onClick="{{ c.flip }}" style="aspect-ratio:1;border:0;border-radius:16px;cursor:pointer;font-size:32px;display:flex;align-items:center;justify-content:center;background:{{ c.bg }};color:{{ c.fg }};transition:background .2s">
+                    <sc-if value="{{ c.shown }}"><span style="animation:popIn .18s ease-out">{{ c.emoji }}</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isRps }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:26px;padding:20px 0">
+                <div style="display:flex;align-items:center;gap:30px;font-size:clamp(48px,9vw,86px)">
+                  <div style="text-align:center"><div>{{ rpsYouEmoji }}</div><div style="font-size:13px;color:var(--mute);font-weight:600;margin-top:8px">You</div></div>
+                  <div style="font-family:'Outfit',sans-serif;font-size:22px;color:var(--mute)">vs</div>
+                  <div style="text-align:center"><div>{{ rpsAiEmoji }}</div><div style="font-size:13px;color:var(--mute);font-weight:600;margin-top:8px">CPU</div></div>
+                </div>
+                <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:{{ rpsColor }}">{{ rpsMsg }}</div>
+                <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+                  <sc-for list="{{ throws }}" as="t" hint-placeholder-count="3">
+                    <button onClick="{{ t.pick }}" style="border:0;background:var(--surf);color:var(--ink);width:104px;height:104px;border-radius:26px;font-size:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s" style-hover="transform:translateY(-4px)">{{ t.emoji }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isWhack }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:460px;margin:0 auto">
+                <sc-for list="{{ holes }}" as="h" hint-placeholder-count="9">
+                  <button onClick="{{ h.hit }}" style="aspect-ratio:1;border:0;border-radius:50%;cursor:pointer;font-size:44px;display:flex;align-items:end;justify-content:center;padding-bottom:12px;background:{{ h.bg }};transition:background .12s">
+                    <sc-if value="{{ h.up }}"><span style="animation:popIn .12s ease-out">🐹</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ overlay }}">
+              <div style="position:absolute;inset:0;background:rgba(5,5,7,.82);border-radius:26px;display:flex;align-items:center;justify-content:center;padding:30px">
+                <div style="background:var(--surf);border-radius:26px;padding:34px;max-width:380px;width:100%;text-align:center;display:flex;flex-direction:column;gap:8px;animation:fadeUp .25s ease-out;box-shadow:0 24px 70px rgba(0,0,0,.5)">
+                  <div style="font-size:46px">{{ overlayEmoji }}</div>
+                  <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800">{{ overlayTitle }}</div>
+                  <div style="font-size:14px;color:var(--mute);line-height:1.5">{{ overlayNote }}</div>
+                  <button onClick="{{ overlayAction }}" style="margin-top:14px;border:0;background:var(--lime);color:#111;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer">{{ overlayBtn }}</button>
+                  <button onClick="{{ backToDetail }}" style="border:0;background:transparent;color:var(--mute);font-family:'Inter',sans-serif;font-size:13px;padding:6px;cursor:pointer">Leave game</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-if value="{{ isTttGame }}">
+              <div style="background:var(--card);border-radius:20px;padding:18px;border-bottom:3px solid #caff79"><div style="font-size:12px;color:var(--mute);letter-spacing:.5px">YOU · X</div><div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:800">{{ scoreX }}</div></div>
+              <div style="background:var(--card);border-radius:20px;padding:18px;border-bottom:3px solid #ec4899"><div style="font-size:12px;color:var(--mute);letter-spacing:.5px">{{ oName }} · O</div><div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:800">{{ scoreO }}</div></div>
+            </sc-if>
+            <sc-if value="{{ showScorePanel }}">
+              <div style="background:var(--card);border-radius:20px;padding:18px;border-bottom:3px solid #caff79"><div style="font-size:12px;color:var(--mute);letter-spacing:.5px">SCORE</div><div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:800">{{ liveScore }}</div></div>
+            </sc-if>
+            <div style="background:var(--surf);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--mute)">Personal best</span><span style="font-weight:700">{{ sel.bestText }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--mute)">Plays</span><span style="font-weight:600">{{ sel.playCount }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--mute)">Saved</span><span style="font-weight:600;color:var(--limeText)">{{ saveState }}</span></div>
+            </div>
+            <div style="background:var(--surf);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:13px;font-weight:700">Controls</div>
+              <div style="font-size:12px;color:var(--mute);line-height:1.6">{{ controls }}</div>
+            </div>
+            <sc-if value="{{ canPause }}">
+              <button onClick="{{ togglePause }}" style="border:0;background:var(--card);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;padding:14px;border-radius:16px;cursor:pointer">{{ pauseLabel }}</button>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isChallenges }}">
+      <div style="max-width:1180px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:22px">
+        <div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:900;letter-spacing:-1px">Challenges</div>
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px">
+          <div style="border-radius:26px;background:var(--lime);color:#111;padding:30px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;opacity:.62">Today</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:900;letter-spacing:-.8px;line-height:1.1">Survive the Impossible AI</div>
+            <div style="height:10px;border-radius:9999px;background:rgba(0,0,0,.14);overflow:hidden"><div style="height:100%;background:#111;width:{{ challengePct }}"></div></div>
+            <div style="font-size:13px;opacity:.7">{{ challengeText }}</div>
+            <button onClick="{{ startChallenge }}" style="align-self:flex-start;border:0;background:#111;color:var(--lime);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:14px 28px;border-radius:14px;cursor:pointer">Continue ▶</button>
+          </div>
+          <div style="background:var(--card);border-radius:26px;padding:26px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:17px;font-weight:700">Streak · {{ streakLabel }}</div>
+            <div style="display:flex;justify-content:space-between;gap:6px">
+              <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+                  <div style="font-size:11px;color:var(--mute)">{{ d.label }}</div>
+                  <sc-if value="{{ d.done }}"><div style="width:36px;height:36px;border-radius:50%;background:#b4ff9c;color:#111;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700">✓</div></sc-if>
+                  <sc-if value="{{ d.today }}"><div style="width:36px;height:36px;border-radius:50%;border:2px dashed var(--limeText);color:var(--limeText);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ d.n }}</div></sc-if>
+                  <sc-if value="{{ d.todo }}"><div style="width:36px;height:36px;border-radius:50%;background:var(--surf);color:var(--mute);display:flex;align-items:center;justify-content:center;font-size:13px">{{ d.n }}</div></sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:13px;color:var(--mute);line-height:1.5">Finish one game a day to keep the streak alive. Progress is stored on this device.</div>
+          </div>
+        </div>
+
+        <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;margin-top:6px">This week</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+          <sc-for list="{{ weekly }}" as="w" hint-placeholder-count="3">
+            <button onClick="{{ w.open }}" style="border:0;text-align:left;background:var(--card);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;cursor:pointer;color:var(--ink);font-family:'Inter',sans-serif">
+              <div style="display:flex;align-items:center;gap:12px;width:100%">
+                <div style="width:44px;height:44px;border-radius:14px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:22px;color:{{ w.color }};flex:none"><i class="{{ w.icon }}"></i></div>
+                <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:700">{{ w.name }}</div><div style="font-size:12px;color:var(--mute);margin-top:2px">{{ w.sub }}</div></div>
+                <div style="font-size:13px;font-weight:700;color:var(--limeText)">+{{ w.xp }} XP</div>
+              </div>
+              <div style="height:7px;border-radius:9999px;background:var(--surf);overflow:hidden;width:100%"><div style="height:100%;background:var(--lime);width:{{ w.pct }}"></div></div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isScores }}">
+      <div style="max-width:1180px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+          <div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:900;letter-spacing:-1px">Scores</div>
+          <div style="display:flex;background:var(--card);border-radius:9999px;padding:4px">
+            <sc-for list="{{ scopes }}" as="s" hint-placeholder-count="2">
+              <button onClick="{{ s.pick }}" style="border:0;padding:10px 24px;border-radius:9999px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }}">{{ s.name }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-end;gap:18px;max-width:640px;margin:0 auto;width:100%">
+          <sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:10px">
+              <div style="width:66px;height:66px;border-radius:50%;background:{{ p.wash }};color:{{ p.color }};display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;font-family:'Outfit',sans-serif">{{ p.initials }}</div>
+              <div style="font-size:14px;font-weight:600">{{ p.name }}</div>
+              <div style="width:100%;border-radius:18px 18px 0 0;background:var(--card);display:flex;flex-direction:column;align-items:center;padding-top:14px;gap:4px;height:{{ p.h }}">
+                <div style="font-size:24px">{{ p.medal }}</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700">{{ p.score }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ board }}" as="r" hint-placeholder-count="6">
+              <div style="background:{{ r.bg }};border-radius:18px;padding:14px 18px;display:flex;align-items:center;gap:14px">
+                <div style="width:24px;font-size:14px;font-weight:700;color:var(--mute);text-align:center">{{ r.rank }}</div>
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ r.initials }}</div>
+                <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600">{{ r.name }}</div><div style="font-size:12px;color:var(--mute);margin-top:2px">{{ r.detail }}</div></div>
+                <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:700">{{ r.score }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:6px;align-self:start">
+            <div style="font-size:18px;font-weight:700;margin-bottom:8px">Your personal bests</div>
+            <sc-for list="{{ bests }}" as="b" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)">
+                <span style="font-size:20px;color:{{ b.color }}"><i class="{{ b.icon }}"></i></span>
+                <span style="flex:1;font-size:14px;font-weight:600">{{ b.name }}</span>
+                <span style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:{{ b.valueColor }}">{{ b.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isProfile }}">
+      <div style="max-width:1180px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div style="width:84px;height:84px;border-radius:26px;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:31px;font-weight:900">KK</div>
+          <div style="flex:1;min-width:240px">
+            <div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:900;letter-spacing:-.8px">Krishnendu</div>
+            <div style="font-size:14px;color:var(--mute);margin-top:4px">Level {{ level }} · {{ xp }} XP · {{ totalPlays }} games played</div>
+            <div style="height:8px;border-radius:9999px;background:var(--card);margin-top:12px;max-width:420px;overflow:hidden"><div style="height:100%;background:var(--lime);width:{{ xpPct }}"></div></div>
+          </div>
+          <button onClick="{{ openSettings }}" style="border:0;background:var(--card);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:13px 22px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:9px"><i class="ph-duotone ph-gear"></i>Settings</button>
+        </div>
+
+        <div data-split="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px">
+          <div style="background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:700">Achievements</div><div style="font-size:13px;color:var(--mute)">{{ badgeCount }} of 8</div></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+              <sc-for list="{{ badges }}" as="b" hint-placeholder-count="8">
+                <div style="aspect-ratio:1;border-radius:18px;background:var(--surf);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:{{ b.op }}">
+                  <div style="font-size:24px">{{ b.emoji }}</div>
+                  <div style="font-size:10px;color:var(--mute);text-align:center;line-height:1.2;padding:0 6px">{{ b.name }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:18px;font-weight:700">Recent activity</div>
+            <sc-if value="{{ noActivity }}"><div style="font-size:13px;color:var(--mute);line-height:1.6">Nothing played yet on this device. Finish a game and it shows up here.</div></sc-if>
+            <sc-for list="{{ activity }}" as="a" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)">
+                <span style="font-size:20px;color:{{ a.color }}"><i class="{{ a.icon }}"></i></span>
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ a.name }}</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">{{ a.when }}</span></span>
+                <span style="font-size:13px;font-weight:700;color:{{ a.resColor }}">{{ a.result }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSettings }}">
+      <div style="max-width:760px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;gap:22px;animation:fadeUp .25s ease-out">
+        <div style="display:flex;align-items:center;gap:14px">
+          <button onClick="{{ openProfile }}" style="border:0;background:var(--card);color:var(--ink);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-left"></i></button>
+          <div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:900;letter-spacing:-.8px">Settings</div>
+        </div>
+
+        <div style="background:var(--card);border-radius:22px;overflow:hidden">
+          <button onClick="{{ toggleTheme }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:20px;display:flex;align-items:center;gap:14px;cursor:pointer;border-bottom:1px solid var(--line)">
+            <span style="font-size:21px;color:var(--limeText)"><i class="ph-duotone ph-moon"></i></span>
+            <span style="flex:1;text-align:left"><span style="display:block;font-size:15px;font-weight:600">Dark arcade mode</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">Neon on near-black. Games always play on a dark board.</span></span>
+            <span style="width:50px;height:28px;border-radius:9999px;background:{{ themeTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ themeKnobX }};width:22px;height:22px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+          </button>
+          <button onClick="{{ toggleSound }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:20px;display:flex;align-items:center;gap:14px;cursor:pointer;border-bottom:1px solid var(--line)">
+            <span style="font-size:21px;color:var(--limeText)"><i class="ph-duotone ph-speaker-high"></i></span>
+            <span style="flex:1;text-align:left"><span style="display:block;font-size:15px;font-weight:600">Sound effects</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">Blips on scoring and game over</span></span>
+            <span style="width:50px;height:28px;border-radius:9999px;background:{{ soundTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ soundKnobX }};width:22px;height:22px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+          </button>
+          <button onClick="{{ toggleKeys }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:20px;display:flex;align-items:center;gap:14px;cursor:pointer">
+            <span style="font-size:21px;color:var(--limeText)"><i class="ph-duotone ph-keyboard"></i></span>
+            <span style="flex:1;text-align:left"><span style="display:block;font-size:15px;font-weight:600">Keyboard controls</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">Arrows, space, 1–9 for Tic-Tac-Toe, R to restart</span></span>
+            <span style="width:50px;height:28px;border-radius:9999px;background:{{ keysTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ keysKnobX }};width:22px;height:22px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+          </button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:13px;color:var(--mute);letter-spacing:.5px">MORE</div>
+          <div style="background:var(--card);border-radius:22px;overflow:hidden">
+            <a href="../old-version.html" style="width:100%;box-sizing:border-box;color:var(--ink);text-decoration:none;font-family:'Inter',sans-serif;padding:20px;display:flex;align-items:center;gap:14px;cursor:pointer;border-bottom:1px solid var(--line)">
+              <span style="font-size:21px;color:var(--limeText)"><i class="ph-duotone ph-clock-counter-clockwise"></i></span>
+              <span style="flex:1;text-align:left"><span style="display:block;font-size:15px;font-weight:600">Older version of games</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">The original arcade page with the standalone game builds</span></span>
+              <span style="font-size:17px;color:var(--mute)"><i class="ph-bold ph-arrow-up-right"></i></span>
+            </a>
+            <a href="Arcade-Mobile-App.dc.html" style="width:100%;box-sizing:border-box;color:var(--ink);text-decoration:none;font-family:'Inter',sans-serif;padding:20px;display:flex;align-items:center;gap:14px;cursor:pointer">
+              <span style="font-size:21px;color:var(--limeText)"><i class="ph-duotone ph-device-mobile"></i></span>
+              <span style="flex:1;text-align:left"><span style="display:block;font-size:15px;font-weight:600">Mobile App view</span><span style="display:block;font-size:12px;color:var(--mute);margin-top:2px">The same arcade laid out as a phone app</span></span>
+              <span style="font-size:17px;color:var(--mute)"><i class="ph-bold ph-arrow-up-right"></i></span>
+            </a>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:13px;color:var(--mute);letter-spacing:.5px">DEFAULT AI DIFFICULTY</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+              <button onClick="{{ m.pick }}" style="flex:1;min-width:110px;border:0;border-radius:14px;padding:14px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;background:{{ m.chipBg }};color:{{ m.chipFg }}">{{ m.name }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--surf);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--mute)">
+          <div style="display:flex;justify-content:space-between"><span>Version</span><span style="color:var(--ink);font-weight:600">1.0 · local storage</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Saved in</span><span style="color:var(--ink);font-weight:600">{{ storageLabel }}</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Games installed</span><span style="color:var(--ink);font-weight:600">11</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Built by</span><span style="color:var(--ink);font-weight:600">Krishnendu Kar</span></div>
+        </div>
+
+        <button onClick="{{ wipeData }}" style="align-self:flex-start;background:transparent;color:#d9534f;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;padding:14px 26px;border-radius:14px;cursor:pointer;border:1px solid rgba(217,83,79,.35)">{{ wipeLabel }}</button>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light' | 'dark'&quot;},&quot;defaultMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pvp&quot;,&quot;easy&quot;,&quot;medium&quot;,&quot;hard&quot;],&quot;default&quot;:&quot;hard&quot;,&quot;tsType&quot;:&quot;'pvp' | 'easy' | 'medium' | 'hard'&quot;}}">
+const GAMES = [
+  { id:'ttt2', name:'Tic-Tac-Toe V2', kind:'ttt', icon:'ph-duotone ph-game-controller', color:'#ec4899', wash:'rgba(236,72,153,.12)', rank:'#2', cat:'Classic', unit:'wins', desc:'The next-level experience with animations and an unbeatable minimax AI.', how:'Get three in a row. You play X and move first. On Impossible the AI never loses, so a draw is the best you can do.', controls:'Click a square, or press 1–9. R restarts the round.' },
+  { id:'ttt1', name:'Tic-Tac-Toe V1', kind:'ttt', icon:'ph-duotone ph-squares-four', color:'#3b82f6', wash:'rgba(59,130,246,.12)', rank:'#7', cat:'Classic', unit:'wins', desc:'The original two-player classic that started it all.', how:'Two players share one screen and take turns. First to three in a row wins.', controls:'Click a square, or press 1–9. R restarts the round.' },
+  { id:'snake', name:'Neon Snake', kind:'canvas', icon:'ph-duotone ph-path', color:'#10b981', wash:'rgba(16,185,129,.12)', rank:'#4', cat:'Arcade', unit:'pts', desc:"Eat the dots and grow. Don't hit the walls or yourself.", how:'Every dot adds a segment and a little speed. One wall or one bite of your own tail ends the run.', controls:'Arrow keys or WASD to steer.' },
+  { id:'2048', name:'2048', kind:'2048', icon:'ph-duotone ph-grid-four', color:'#f59e0b', wash:'rgba(245,158,11,.12)', rank:'#1', cat:'Puzzle', unit:'pts', desc:'Slide and combine tiles to reach the legendary 2048.', how:'Every slide moves all tiles and spawns a new one. Equal tiles merge and double.', controls:'Arrow keys or WASD to slide.' },
+  { id:'pong', name:'Neon Pong', kind:'canvas', icon:'ph-duotone ph-tennis-ball', color:'#06b6d4', wash:'rgba(6,182,212,.12)', rank:'#5', cat:'Reflex', unit:'pts', desc:'The legendary paddle game against the computer.', how:'First to 11 points takes the match. The ball speeds up on every paddle hit.', controls:'Move the mouse over the board, or use ↑ / ↓.' },
+  { id:'breakout', name:'Neon Breakout', kind:'canvas', icon:'ph-duotone ph-wall', color:'#a855f7', wash:'rgba(168,85,247,.12)', rank:'#6', cat:'Arcade', unit:'pts', desc:'Smash through the neon bricks with your paddle.', how:'Three lives. Higher rows are worth more. Clear every brick to win the board.', controls:'Move the mouse over the board, or use ← / →.' },
+  { id:'space', name:'Space Invaders', kind:'canvas', icon:'ph-duotone ph-rocket', color:'#22d3ee', wash:'rgba(34,211,238,.12)', rank:'#3', cat:'Arcade', unit:'pts', desc:'Defend the galaxy against waves of alien invaders.', how:'Three lives. Clearing a wave scores 200 bonus and sends a faster wave.', controls:'← / → to move, space to fire.' },
+  { id:'flappy', name:'Flappy Box', kind:'canvas', icon:'ph-duotone ph-bird', color:'#eab308', wash:'rgba(234,179,8,.12)', rank:'#8', cat:'Reflex', unit:'pipes', desc:'Navigate the pipes and fly as far as you can.', how:'One pipe cleared is one point. Touching a pipe, the floor or the ceiling ends the run.', controls:'Space, ↑ or click the board to flap.' },
+  { id:'memory', name:'Memory Match', kind:'memory', icon:'ph-duotone ph-cards', color:'#a855f7', wash:'rgba(168,85,247,.12)', rank:'#4', cat:'Puzzle', unit:'time', desc:'Flip the cards and find all eight matching pairs.', how:'Flip two cards. Matches stay up. Your best is the fastest clear, so lower is better.', controls:'Click a card to flip it.' },
+  { id:'rps', name:'Rock Paper Scissors', kind:'rps', icon:'ph-duotone ph-hand-fist', color:'#f43f5e', wash:'rgba(244,63,94,.12)', rank:'#3', cat:'Classic', unit:'streak', desc:'Quick match against the computer. How long can you keep winning?', how:'Rock beats scissors, scissors beats paper, paper beats rock. Your best is the longest win streak.', controls:'Click a throw.' },
+  { id:'whack', name:'Whack-a-Mole', kind:'whack', icon:'ph-duotone ph-hammer', color:'#f97316', wash:'rgba(249,115,22,.12)', rank:'#9', cat:'Reflex', unit:'hits', desc:'Smash the moles as fast as you can before time runs out.', how:'Thirty seconds on the clock. Every mole hit is a point; the moles get faster as you go.', controls:'Click a mole.' }
+];
+
+const MODES = [
+  { id:'pvp', name:'Player vs. Player', note:'Share one screen, take turns', icon:'ph-duotone ph-users-three', color:'#3b82f6' },
+  { id:'easy', name:'Easy', note:'AI plays at random', icon:'ph-duotone ph-smiley', color:'#10b981' },
+  { id:'medium', name:'Medium', note:'AI blocks and takes wins', icon:'ph-duotone ph-target', color:'#eab308' },
+  { id:'hard', name:'Impossible', note:'Minimax — it never loses', icon:'ph-duotone ph-skull', color:'#f43f5e' }
+];
+
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const EMOJIS = ['🕹️','👾','🎯','🚀','🍒','⚡','🎲','🏆'];
+const TILE_BG = { 0:'var(--surf)', 2:'#e8ffcc', 4:'#d4ff9d', 8:'#caff79', 16:'#b4ff9c', 32:'#c1ffd7', 64:'#22d3ee', 128:'#06b6d4', 256:'#a855f7', 512:'#ec4899', 1024:'#f59e0b', 2048:'#f43f5e' };
+const BADGES = [
+  { id:'firstwin', emoji:'🏆', name:'First win' }, { id:'beatai', emoji:'🤖', name:'Beat AI' },
+  { id:'streak7', emoji:'🔥', name:'7-day' }, { id:'speedrun', emoji:'⚡', name:'Speedrun' },
+  { id:'snake1000', emoji:'🐍', name:'1000 pts' }, { id:'perfect', emoji:'🎯', name:'Perfect' },
+  { id:'wave10', emoji:'🚀', name:'Wave 10' }, { id:'allgames', emoji:'👑', name:'All games' }
+];
+const FRIENDS = [
+  { name:'Priya N.', initials:'PN', score:11208, detail:'302 games' },
+  { name:'Ishaan R.', initials:'IR', score:9410, detail:'254 games' },
+  { name:'Dev M.', initials:'DM', score:8760, detail:'221 games' },
+  { name:'Rohit S.', initials:'RS', score:7940, detail:'190 games' },
+  { name:'Ananya D.', initials:'AD', score:7510, detail:'171 games' },
+  { name:'Meera J.', initials:'MJ', score:6240, detail:'132 games' }
+];
+
+function winnerOf(b) {
+  for (const L of LINES) if (b[L[0]] && b[L[0]] === b[L[1]] && b[L[1]] === b[L[2]]) return { mark:b[L[0]], line:L };
+  return b.every(Boolean) ? { mark:'draw', line:null } : null;
+}
+function minimax(b, me, turn) {
+  const w = winnerOf(b);
+  if (w) return { score: w.mark === 'draw' ? 0 : (w.mark === me ? 10 : -10) };
+  let best = null;
+  for (let i = 0; i < 9; i++) {
+    if (b[i]) continue;
+    b[i] = turn;
+    const s = minimax(b, me, turn === 'X' ? 'O' : 'X').score;
+    b[i] = '';
+    const adj = s > 0 ? s - 1 : (s < 0 ? s + 1 : 0);
+    if (!best || (turn === me ? adj > best.score : adj < best.score)) best = { score: adj, move: i };
+  }
+  return best;
+}
+function twoInLine(b, mark) {
+  for (const L of LINES) {
+    const v = L.map(i => b[i]);
+    if (v.filter(x => x === mark).length === 2 && v.includes('')) return L[v.indexOf('')];
+  }
+  return -1;
+}
+const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const commas = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const mmss = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const S = (typeof window !== 'undefined' && window.ArcadeStore) ? window.ArcadeStore.loadSync() : null;
+    const data = S || { plays:{}, bests:{}, xp:0, streak:{count:0, lastDay:null, week:[false,false,false,false,false,false,false]}, challenge:{progress:0, goal:3}, achievements:[], activity:[], settings:{ theme:this.props.defaultTheme || 'light', sound:true, keys:true, mode:this.props.defaultMode || 'hard' } };
+    this.state = {
+      data,
+      screen: 'home', gameId: 'ttt2', cat: 'All', scope: 'Friends',
+      mode: data.settings.mode || 'hard',
+      theme: data.settings.theme || this.props.defaultTheme || 'light',
+      board: Array(9).fill(''), turn: 'X', result: null, line: null, moves: 0, scoreX: 0, scoreO: 0,
+      live: 0, running: false, phase: 'idle', outcome: null,
+      grid: null, cards: [], flipped: [], memoryTime: 0, memoryMoves: 0,
+      rpsYou: '', rpsAi: '', rpsMsg: 'Pick a throw', rpsStreak: 0,
+      holes: Array(9).fill(false), whackLeft: 30,
+      wiped: false, storage: 'localStorage'
+    };
+    this.canvasRef = React.createRef();
+  }
+
+  /* ---------------------------- lifecycle ---------------------------- */
+  componentDidMount() {
+    const boot = async () => {
+      const S = window.ArcadeStore;
+      if (!S) return;
+      const data = await S.load();
+      this.setState(s => ({
+        data,
+        theme: data.settings.theme || s.theme,
+        mode: data.settings.mode || s.mode,
+        scoreX: data.ttt ? data.ttt.scoreX : 0,
+        scoreO: data.ttt ? data.ttt.scoreO : 0,
+        storage: self.indexedDB ? 'IndexedDB' : 'localStorage'
+      }));
+    };
+    if (window.ArcadeStore) boot(); else window.addEventListener('arcade-ready', boot, { once: true });
+
+    this.onKey = (e) => {
+      const s = this.state;
+      if (s.screen !== 'game' || !s.data.settings.keys) return;
+      const g = this.game();
+      if (e.key.toLowerCase() === 'r') { this.resetGame(); return; }
+      if (this.engine && this.engine.key(e, false)) { e.preventDefault(); return; }
+      if (g.kind === 'ttt') { const n = parseInt(e.key, 10); if (n >= 1 && n <= 9) this.tapCell(n - 1); return; }
+      if (g.kind === '2048') {
+        const dir = { arrowleft:'l', a:'l', arrowright:'r', d:'r', arrowup:'u', w:'u', arrowdown:'d', s:'d' }[e.key.toLowerCase()];
+        if (dir) { e.preventDefault(); this.slide(dir); }
+      }
+    };
+    this.onKeyUp = (e) => { if (this.engine) this.engine.key(e, true); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  componentDidUpdate() { this.syncEngine(); }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('keyup', this.onKeyUp);
+    this.killEngine();
+    clearInterval(this.timer);
+  }
+
+  /* ------------------------------ storage ---------------------------- */
+  persist(data, extra) {
+    if (window.ArcadeStore) window.ArcadeStore.save(data);
+    this.setState(Object.assign({ data }, extra || {}));
+  }
+  setSetting(key, value) {
+    const data = Object.assign({}, this.state.data);
+    data.settings = Object.assign({}, data.settings, { [key]: value });
+    this.persist(data);
+    return data;
+  }
+  finish(score, outcome) {
+    const S = window.ArcadeStore;
+    let data = this.state.data;
+    if (S) {
+      const r = S.recordPlay(data, this.state.gameId, score, outcome);
+      data = r.state;
+      data = this.unlock(data, score, outcome);
+      if (this.state.gameId === 'ttt2' && this.state.mode === 'hard') data = S.bumpChallenge(data, outcome !== 'loss');
+    }
+    this.persist(data, { phase: 'over', running: false, outcome: outcome || null, live: typeof score === 'number' ? score : 0 });
+  }
+  unlock(data, score, outcome) {
+    const have = new Set(data.achievements || []);
+    const id = this.state.gameId;
+    if (outcome === 'win') have.add('firstwin');
+    if (id === 'ttt2' && this.state.mode === 'hard' && outcome !== 'loss') have.add('beatai');
+    if ((data.streak.count || 0) >= 7) have.add('streak7');
+    if (id === 'memory' && score <= 45) have.add('speedrun');
+    if (id === 'snake' && score >= 1000) have.add('snake1000');
+    if (id === 'rps' && score >= 5) have.add('perfect');
+    if (id === 'space' && score >= 2000) have.add('wave10');
+    if (Object.keys(data.plays || {}).length >= 11) have.add('allgames');
+    return Object.assign({}, data, { achievements: Array.from(have) });
+  }
+
+  /* ------------------------------- helpers --------------------------- */
+  game(id) { return GAMES.find(g => g.id === (id || this.state.gameId)) || GAMES[0]; }
+  bestText(g) {
+    const v = this.state.data.bests[g.id];
+    if (v === undefined) return '—';
+    if (g.id === 'memory') return mmss(v);
+    if (g.unit === 'wins' || g.unit === 'streak' || g.unit === 'pipes' || g.unit === 'hits') return commas(v) + ' ' + g.unit;
+    return commas(v);
+  }
+
+  /* -------------------------------- open ----------------------------- */
+  go = (screen, extra) => { this.killEngine(); clearInterval(this.timer); this.setState(Object.assign({ screen }, extra || {})); };
+  openGame = (id) => {
+    this.killEngine(); clearInterval(this.timer);
+    this.setState({ screen: 'game', gameId: id || this.state.gameId, phase: 'idle', running: false, live: 0, outcome: null }, () => this.setupGame());
+  };
+  setupGame() {
+    const g = this.game();
+    if (g.kind === 'ttt') this.setState({ board: Array(9).fill(''), turn: 'X', result: null, line: null, moves: 0, phase: 'playing' });
+    if (g.kind === '2048') this.newGrid();
+    if (g.kind === 'memory') this.newMemory();
+    if (g.kind === 'rps') this.setState({ rpsYou: '', rpsAi: '', rpsMsg: 'Pick a throw', rpsStreak: 0, live: 0, phase: 'playing' });
+    if (g.kind === 'whack') this.setState({ phase: 'idle', holes: Array(9).fill(false), whackLeft: 30, live: 0 });
+    if (g.kind === 'canvas') this.setState({ phase: 'idle', live: 0 });
+  }
+  resetGame = () => { this.killEngine(); clearInterval(this.timer); this.setState({ phase: 'idle', running: false, live: 0, outcome: null }, () => this.setupGame()); };
+
+  /* ------------------------------- canvas ---------------------------- */
+  syncEngine() {
+    const g = this.game();
+    const cv = this.canvasRef.current;
+    if (this.state.screen !== 'game' || g.kind !== 'canvas' || !cv || !window.ArcadeGames) { if (this.state.screen !== 'game') this.killEngine(); return; }
+    if (this.engineFor === g.id && this.engineCv === cv) return;
+    this.killEngine();
+    this.engine = window.ArcadeGames.createGame(g.id, cv, {
+      onScore: (n) => this.setState({ live: n }),
+      onGameOver: (n, outcome) => this.finish(n, outcome || (n > 0 ? 'played' : 'loss'))
+    });
+    this.engineFor = g.id; this.engineCv = cv;
+  }
+  killEngine() { if (this.engine) { this.engine.destroy(); this.engine = null; this.engineFor = null; this.engineCv = null; } }
+  startCanvas = () => { this.syncEngine(); if (this.engine) { this.engine.start(); this.setState({ phase: 'playing', running: true, live: 0, outcome: null }); } };
+  togglePause = () => {
+    if (!this.engine) return;
+    if (this.state.running) { this.engine.stop(); this.setState({ running: false }); }
+    else { this.engine.start(); this.setState({ running: true }); }
+  };
+
+  /* ------------------------------ tic tac toe ------------------------ */
+  aiMove(board, mode) {
+    const empty = board.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+    if (!empty.length) return -1;
+    if (mode === 'easy') return empty[Math.floor(Math.random() * empty.length)];
+    if (mode === 'medium') {
+      const w = twoInLine(board, 'O'); if (w >= 0) return w;
+      const b = twoInLine(board, 'X'); if (b >= 0) return b;
+      return empty.includes(4) ? 4 : empty[Math.floor(Math.random() * empty.length)];
+    }
+    return minimax(board.slice(), 'O', 'O').move;
+  }
+  settle(board, moves, turn) {
+    const w = winnerOf(board);
+    if (!w) { this.setState({ board, moves, turn }); return true; }
+    const scoreX = this.state.scoreX + (w.mark === 'X' ? 1 : 0);
+    const scoreO = this.state.scoreO + (w.mark === 'O' ? 1 : 0);
+    this.setState({ board, moves, turn, result: w.mark, line: w.line, scoreX, scoreO });
+    const data = Object.assign({}, this.state.data, { ttt: { scoreX, scoreO } });
+    this.setState({ data });
+    const outcome = w.mark === 'X' ? 'win' : (w.mark === 'O' ? 'loss' : 'draw');
+    setTimeout(() => this.finish(scoreX, outcome), 60);
+    return false;
+  }
+  tapCell = (i) => {
+    const s = this.state;
+    if (s.result || s.board[i] || s.screen !== 'game') return;
+    const pvp = this.state.gameId === 'ttt1' || s.mode === 'pvp';
+    const board = s.board.slice();
+    board[i] = s.turn;
+    const moves = s.moves + 1;
+    if (pvp) { this.settle(board, moves, s.turn === 'X' ? 'O' : 'X'); return; }
+    if (!this.settle(board, moves, 'O')) return;
+    setTimeout(() => {
+      const cur = this.state;
+      if (cur.result) return;
+      const m = this.aiMove(cur.board, cur.mode);
+      if (m < 0) return;
+      const nb = cur.board.slice();
+      nb[m] = 'O';
+      this.settle(nb, cur.moves + 1, 'X');
+    }, 400);
+  };
+  nextRound = () => this.setState({ board: Array(9).fill(''), turn: 'X', result: null, line: null, moves: 0, phase: 'playing', outcome: null });
+
+  /* --------------------------------- 2048 ---------------------------- */
+  newGrid() {
+    const grid = Array(16).fill(0);
+    this.spawn(grid); this.spawn(grid);
+    this.setState({ grid, live: 0, phase: 'playing', outcome: null, won2048: false });
+  }
+  spawn(grid) {
+    const free = grid.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+    if (!free.length) return false;
+    grid[free[Math.floor(Math.random() * free.length)]] = Math.random() < 0.9 ? 2 : 4;
+    return true;
+  }
+  slide(dir) {
+    const s = this.state;
+    if (!s.grid || s.phase === 'over') return;
+    const g = s.grid.slice();
+    let gained = 0, moved = false;
+    const idx = (r, c) => r * 4 + c;
+    for (let i = 0; i < 4; i++) {
+      let line = [];
+      for (let j = 0; j < 4; j++) {
+        const v = dir === 'l' || dir === 'r' ? g[idx(i, j)] : g[idx(j, i)];
+        line.push(v);
+      }
+      if (dir === 'r' || dir === 'd') line.reverse();
+      let out = line.filter(Boolean);
+      for (let k = 0; k < out.length - 1; k++) {
+        if (out[k] === out[k + 1]) { out[k] *= 2; gained += out[k]; out.splice(k + 1, 1); }
+      }
+      while (out.length < 4) out.push(0);
+      if (dir === 'r' || dir === 'd') out.reverse();
+      for (let j = 0; j < 4; j++) {
+        const p = dir === 'l' || dir === 'r' ? idx(i, j) : idx(j, i);
+        if (g[p] !== out[j]) moved = true;
+        g[p] = out[j];
+      }
+    }
+    if (!moved) return;
+    this.spawn(g);
+    const score = s.live + gained;
+    const stuck = !g.includes(0) && !g.some((v, i) => (i % 4 < 3 && g[i + 1] === v) || (i < 12 && g[i + 4] === v));
+    this.setState({ grid: g, live: score });
+    if (g.includes(2048) && !s.won2048) { this.setState({ won2048: true }); this.finish(score, 'win'); return; }
+    if (stuck) this.finish(score, 'loss');
+  }
+
+  /* -------------------------------- memory --------------------------- */
+  newMemory() {
+    const cards = shuffle(EMOJIS.concat(EMOJIS).map((e, i) => ({ id: i, emoji: e, up: false, done: false })));
+    clearInterval(this.timer);
+    this.setState({ cards, flipped: [], memoryTime: 0, memoryMoves: 0, phase: 'playing', outcome: null, live: 0 });
+    this.timer = setInterval(() => this.setState(p => ({ memoryTime: p.memoryTime + 1 })), 1000);
+  }
+  flipCard = (i) => {
+    const s = this.state;
+    if (s.phase !== 'playing') return;
+    const cards = s.cards.map(c => Object.assign({}, c));
+    if (cards[i].up || cards[i].done || s.flipped.length >= 2) return;
+    cards[i].up = true;
+    const flipped = s.flipped.concat(i);
+    this.setState({ cards, flipped });
+    if (flipped.length < 2) return;
+    const [a, b] = flipped;
+    const moves = s.memoryMoves + 1;
+    if (cards[a].emoji === cards[b].emoji) {
+      cards[a].done = cards[b].done = true;
+      this.setState({ cards, flipped: [], memoryMoves: moves });
+      if (cards.every(c => c.done)) { clearInterval(this.timer); this.finish(this.state.memoryTime, 'win'); }
+    } else {
+      setTimeout(() => {
+        const cur = this.state.cards.map(c => Object.assign({}, c));
+        cur[a].up = false; cur[b].up = false;
+        this.setState({ cards: cur, flipped: [], memoryMoves: moves });
+      }, 700);
+    }
+  };
+
+  /* ---------------------------------- rps ---------------------------- */
+  throwRps = (pick) => {
+    if (this.state.phase !== 'playing') return;
+    const opts = ['✊', '✋', '✌️'];
+    const ai = opts[Math.floor(Math.random() * 3)];
+    const beats = { '✊':'✌️', '✋':'✊', '✌️':'✋' };
+    let msg, streak = this.state.rpsStreak;
+    if (pick === ai) msg = 'Draw — go again';
+    else if (beats[pick] === ai) { streak += 1; msg = 'You win! Streak ' + streak; }
+    else { msg = 'CPU takes it'; }
+    const lost = pick !== ai && beats[pick] !== ai;
+    this.setState({ rpsYou: pick, rpsAi: ai, rpsMsg: msg, rpsStreak: streak, live: streak });
+    if (lost) this.finish(streak, streak > 0 ? 'played' : 'loss');
+  };
+
+  /* --------------------------------- whack --------------------------- */
+  startWhack = () => {
+    clearInterval(this.timer); clearInterval(this.moleTimer);
+    this.setState({ phase: 'playing', live: 0, whackLeft: 30, holes: Array(9).fill(false), outcome: null });
+    this.timer = setInterval(() => {
+      const left = this.state.whackLeft - 1;
+      if (left <= 0) { clearInterval(this.timer); clearInterval(this.moleTimer); this.setState({ whackLeft: 0, holes: Array(9).fill(false) }); this.finish(this.state.live, 'played'); }
+      else this.setState({ whackLeft: left });
+    }, 1000);
+    const pop = () => {
+      const holes = Array(9).fill(false);
+      holes[Math.floor(Math.random() * 9)] = true;
+      this.setState({ holes });
+    };
+    pop();
+    this.moleTimer = setInterval(pop, 780);
+  };
+  whack = (i) => {
+    if (this.state.phase !== 'playing' || !this.state.holes[i]) return;
+    const holes = this.state.holes.slice();
+    holes[i] = false;
+    this.setState({ holes, live: this.state.live + 1 });
+  };
+
+  /* ------------------------------- render ---------------------------- */
+  renderVals() {
+    const s = this.state, d = s.data, g = this.game();
+    const lime = '#caff79';
+    const bests = d.bests || {}, plays = d.plays || {};
+    const totalPlays = Object.keys(plays).reduce((a, k) => a + plays[k], 0);
+    const wins = (d.activity || []).filter(a => a.outcome === 'win').length;
+    const level = Math.max(1, Math.floor((d.xp || 0) / 500) + 1);
+    const xpPct = Math.round(((d.xp || 0) % 500) / 5) + '%';
+    const navDef = [
+      { id:'home', name:'Play', icon:'ph-duotone ph-game-controller', match:['home','detail','game'] },
+      { id:'challenges', name:'Challenges', icon:'ph-duotone ph-lightning', match:['challenges'] },
+      { id:'scores', name:'Scores', icon:'ph-duotone ph-trophy', match:['scores'] },
+      { id:'profile', name:'Profile', icon:'ph-duotone ph-user', match:['profile'] },
+      { id:'settings', name:'Settings', icon:'ph-duotone ph-gear', match:['settings'] }
+    ];
+    const list = s.cat === 'All' ? GAMES : GAMES.filter(x => x.cat === s.cat);
+    const chProgress = (d.challenge && d.challenge.progress) || 0;
+    const chGoal = (d.challenge && d.challenge.goal) || 3;
+
+    // leaderboard: your XP ranked against the local friend list
+    const you = { name:'You', initials:'KK', score: d.xp || 0, detail: totalPlays + ' games · ' + wins + ' wins', me: true };
+    const ranked = FRIENDS.concat([you]).sort((a, b) => b.score - a.score)
+      .map((r, i) => Object.assign({}, r, {
+        rank: i + 1, score: commas(r.score),
+        bg: r.me ? 'rgba(202,255,121,.14)' : 'var(--card)'
+      }));
+    const podium = [ranked[1], ranked[0], ranked[2]].map((r, i) => Object.assign({}, r, {
+      medal: ['🥈','🥇','🥉'][i], h: ['86px','120px','64px'][i],
+      color: ['#22d3ee','var(--limeText)','#ec4899'][i],
+      wash: ['rgba(34,211,238,.16)','rgba(202,255,121,.18)','rgba(236,72,153,.16)'][i],
+      initials: r.initials, name: r.name
+    }));
+
+    const relative = (t) => {
+      const m = Math.round((Date.now() - t) / 60000);
+      if (m < 1) return 'Just now';
+      if (m < 60) return m + ' min ago';
+      if (m < 1440) return Math.round(m / 60) + 'h ago';
+      return Math.round(m / 1440) + 'd ago';
+    };
+    const activity = (d.activity || []).slice(0, 5).map(a => {
+      const gm = this.game(a.gameId);
+      const label = a.outcome === 'win' ? 'Win' : a.outcome === 'loss' ? 'Lost' : a.outcome === 'draw' ? 'Draw' : (gm.id === 'memory' ? mmss(a.score) : commas(a.score));
+      return {
+        name: gm.name, when: relative(a.at), result: label,
+        resColor: a.outcome === 'loss' ? '#d9534f' : a.outcome === 'win' || a.outcome === 'draw' ? 'var(--limeText)' : 'var(--ink)',
+        icon: gm.icon, color: gm.color
+      };
+    });
+
+    // per-game screen state
+    const kind = g.kind;
+    const overlayIdle = s.phase === 'idle';
+    const overlayOver = s.phase === 'over';
+    const overMsg = () => {
+      if (kind === 'ttt') {
+        if (s.result === 'X') return { e:'🏆', t: (s.mode === 'pvp' || g.id === 'ttt1') ? 'Player X wins!' : 'You win!', n:'Three in a row in ' + s.moves + ' moves.' };
+        if (s.result === 'O') return { e:'🤖', t: (s.mode === 'pvp' || g.id === 'ttt1') ? 'Player O wins!' : 'AI takes it', n:'Total moves: ' + s.moves };
+        return { e:'🤝', t:'Draw', n: s.mode === 'hard' ? 'A draw against Impossible counts as a win.' : 'Nobody got three.' };
+      }
+      if (kind === 'memory') return { e:'🧠', t:'Board cleared', n:'Time ' + mmss(s.memoryTime) + ' · ' + s.memoryMoves + ' moves' };
+      if (kind === 'rps') return { e:'✌️', t:'Streak broken', n:'You reached ' + s.rpsStreak + ' in a row.' };
+      if (kind === 'whack') return { e:'🔨', t:"Time's up", n:'You whacked ' + s.live + ' moles.' };
+      if (g.id === '2048' && s.outcome === 'win') return { e:'🎉', t:'2048 reached', n:'Score ' + commas(s.live) };
+      if (s.outcome === 'win') return { e:'🏆', t:'Cleared!', n:'Score ' + commas(s.live) };
+      return { e:'💥', t:'Game over', n:'Score ' + commas(s.live) };
+    };
+    const om = overMsg();
+    const idleMsg = { e:'🎮', t: g.name, n: g.controls, btn:'Start ▶' };
+    const startAction = kind === 'canvas' ? this.startCanvas : (kind === 'whack' ? this.startWhack : () => this.setupGame());
+    const againAction = kind === 'ttt' ? this.nextRound : (kind === 'canvas' ? this.startCanvas : (kind === 'whack' ? this.startWhack : this.resetGame));
+
+    let status = g.name;
+    if (kind === 'ttt') status = s.result ? 'Round over' : (s.turn === 'X' ? 'Your turn · X' : ((s.mode === 'pvp' || g.id === 'ttt1') ? "Player O's turn" : 'AI thinking…'));
+    if (kind === 'memory') status = 'Time ' + mmss(s.memoryTime) + ' · ' + s.memoryMoves + ' moves';
+    if (kind === 'whack') status = s.phase === 'playing' ? s.whackLeft + 's left · ' + s.live + ' hits' : g.name;
+    if (kind === 'canvas' || kind === '2048') status = g.name + ' · ' + commas(s.live);
+
+    return {
+      theme: s.theme,
+      isHome: s.screen === 'home', isDetail: s.screen === 'detail', isGame: s.screen === 'game',
+      isChallenges: s.screen === 'challenges', isScores: s.screen === 'scores',
+      isProfile: s.screen === 'profile', isSettings: s.screen === 'settings',
+      streak: (d.streak && d.streak.count) || 0,
+      streakLabel: (((d.streak && d.streak.count) || 0) === 1 ? '1 day' : (((d.streak && d.streak.count) || 0) + ' days')),
+      xp: commas(d.xp || 0), level, xpPct,
+      totalPlays, winRate: totalPlays ? Math.round((wins / Math.max(1, (d.activity || []).length)) * 100) + '%' : '—',
+      challengeText: chProgress + ' of ' + chGoal + ' rounds survived today',
+      challengePct: Math.round((chProgress / chGoal) * 100) + '%',
+      navs: navDef.map(n => ({
+        name: n.name, icon: n.icon, on: n.match.indexOf(s.screen) >= 0,
+        bg: n.match.indexOf(s.screen) >= 0 ? 'var(--lime)' : 'transparent',
+        fg: n.match.indexOf(s.screen) >= 0 ? '#111' : 'var(--mute)',
+        pick: () => this.go(n.id)
+      })),
+      catTitle: s.cat === 'All' ? 'All games' : s.cat + ' games',
+      cats: ['All','Classic','Arcade','Puzzle','Reflex'].map(c => ({
+        name: c, on: s.cat === c, off: s.cat !== c, pick: () => this.setState({ cat: c })
+      })),
+      games: list.map(x => Object.assign({}, x, {
+        bestText: this.bestText(x),
+        playText: (plays[x.id] || 0) + ' plays',
+        open: () => this.go('detail', { gameId: x.id })
+      })),
+      sel: Object.assign({}, g, {
+        isTtt: g.id === 'ttt2',
+        bestText: this.bestText(g),
+        playCount: plays[g.id] || 0
+      }),
+      modes: MODES.map(m => ({
+        name: m.name, note: m.note, icon: m.icon, color: m.color,
+        on: s.mode === m.id, off: s.mode !== m.id,
+        chipBg: s.mode === m.id ? lime : 'var(--card)',
+        chipFg: s.mode === m.id ? '#111' : 'var(--mute)',
+        pick: () => { this.setSetting('mode', m.id); this.setState({ mode: m.id }); }
+      })),
+      playGame: () => this.openGame(g.id),
+      goHome: () => this.go('home'),
+      backToDetail: () => this.go('detail'),
+      openProfile: () => this.go('profile'),
+      openSettings: () => this.go('settings'),
+      openScores: () => this.go('scores'),
+      openChallenges: () => this.go('challenges'),
+      startChallenge: () => { this.setSetting('mode', 'hard'); this.setState({ mode: 'hard' }, () => this.openGame('ttt2')); },
+
+      // game screen
+      statusText: status,
+      isTttGame: kind === 'ttt', isCanvasGame: kind === 'canvas', is2048: kind === '2048',
+      isMemory: kind === 'memory', isRps: kind === 'rps', isWhack: kind === 'whack',
+      canvasRef: this.canvasRef,
+      canPause: kind === 'canvas' && s.phase === 'playing',
+      pauseLabel: s.running ? '⏸️ Pause' : '▶️ Resume',
+      togglePause: this.togglePause,
+      showScorePanel: kind !== 'ttt',
+      liveScore: kind === 'memory' ? mmss(s.memoryTime) : commas(s.live),
+      controls: g.controls,
+      saveState: 'auto',
+      resetGame: this.resetGame,
+      overlay: overlayIdle || overlayOver,
+      overlayEmoji: overlayIdle ? idleMsg.e : om.e,
+      overlayTitle: overlayIdle ? idleMsg.t : om.t,
+      overlayNote: overlayIdle ? idleMsg.n : om.n,
+      overlayBtn: overlayIdle ? 'Start ▶' : 'Play Again',
+      overlayAction: overlayIdle ? startAction : againAction,
+      cells: s.board.map((v, i) => ({ isX: v === 'X', isO: v === 'O', win: !!(s.line && s.line.indexOf(i) >= 0), tap: () => this.tapCell(i) })),
+      scoreX: s.scoreX, scoreO: s.scoreO,
+      oName: (s.mode === 'pvp' || g.id === 'ttt1') ? 'PLAYER O' : 'AI',
+      tiles: (s.grid || Array(16).fill(0)).map(v => ({
+        v, has: v > 0, bg: TILE_BG[v] || '#f43f5e', fg: v > 0 ? '#111' : 'transparent',
+        size: v >= 1024 ? '22px' : v >= 128 ? '27px' : '32px'
+      })),
+      cards: s.cards.map((c, i) => ({
+        emoji: c.emoji, shown: c.up || c.done,
+        bg: c.done ? 'rgba(202,255,121,.22)' : (c.up ? 'var(--surf)' : 'var(--lime)'),
+        fg: '#111', flip: () => this.flipCard(i)
+      })),
+      throws: ['✊','✋','✌️'].map(e => ({ emoji: e, pick: () => this.throwRps(e) })),
+      rpsYouEmoji: s.rpsYou || '❔', rpsAiEmoji: s.rpsAi || '❔', rpsMsg: s.rpsMsg,
+      rpsColor: s.rpsMsg.indexOf('win') >= 0 ? 'var(--limeText)' : (s.rpsMsg.indexOf('CPU') >= 0 ? '#d9534f' : 'var(--ink)'),
+      holes: s.holes.map((up, i) => ({ up, bg: up ? 'rgba(249,115,22,.22)' : 'var(--surf)', hit: () => this.whack(i) })),
+
+      // lists
+      week: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((lb, i) => {
+        const todayIdx = (new Date().getDay() + 6) % 7;
+        const done = !!(d.streak && d.streak.week && d.streak.week[i]);
+        return { label: lb, n: i + 1, done, today: !done && i === todayIdx, todo: !done && i !== todayIdx };
+      }),
+      weekly: [
+        { name:'Clear a Memory board under 45s', sub: bests.memory !== undefined ? 'Best ' + mmss(bests.memory) : 'Not played yet', xp:120, pct: bests.memory !== undefined ? Math.min(100, Math.round(45 / Math.max(1, bests.memory) * 100)) + '%' : '0%', icon:'ph-duotone ph-cards', color:'#a855f7', open: () => this.openGame('memory') },
+        { name:'Reach 2,048 in 2048', sub: bests['2048'] !== undefined ? 'Best ' + commas(bests['2048']) : 'Not played yet', xp:200, pct: Math.min(100, Math.round(((bests['2048'] || 0) / 2048) * 100)) + '%', icon:'ph-duotone ph-grid-four', color:'#f59e0b', open: () => this.openGame('2048') },
+        { name:'Score 1,000 in Neon Snake', sub: bests.snake !== undefined ? 'Best ' + commas(bests.snake) : 'Not played yet', xp:90, pct: Math.min(100, Math.round(((bests.snake || 0) / 1000) * 100)) + '%', icon:'ph-duotone ph-path', color:'#10b981', open: () => this.openGame('snake') }
+      ],
+      scopes: ['Friends','Global'].map(n => ({
+        name: n, pick: () => this.setState({ scope: n }),
+        bg: s.scope === n ? lime : 'transparent', fg: s.scope === n ? '#111' : 'var(--mute)'
+      })),
+      podium, board: ranked, boardTop: ranked.slice(0, 4),
+      bests: GAMES.filter(x => bests[x.id] !== undefined).concat(GAMES.filter(x => bests[x.id] === undefined)).slice(0, 6).map(x => ({
+        name: x.name, value: this.bestText(x), icon: x.icon, color: x.color,
+        valueColor: bests[x.id] === undefined ? 'var(--mute)' : 'var(--ink)'
+      })),
+      badges: BADGES.map(b => ({ emoji: b.emoji, name: b.name, op: (d.achievements || []).indexOf(b.id) >= 0 ? 1 : .32 })),
+      badgeCount: (d.achievements || []).length,
+      activity, noActivity: activity.length === 0,
+
+      // settings
+      toggleTheme: () => { const t = s.theme === 'dark' ? 'light' : 'dark'; this.setSetting('theme', t); this.setState({ theme: t }); },
+      toggleSound: () => this.setSetting('sound', !d.settings.sound),
+      toggleKeys: () => this.setSetting('keys', !d.settings.keys),
+      themeTrackBg: s.theme === 'dark' ? lime : 'var(--line)',
+      themeKnobX: s.theme === 'dark' ? '25px' : '3px',
+      soundTrackBg: d.settings.sound ? lime : 'var(--line)',
+      soundKnobX: d.settings.sound ? '25px' : '3px',
+      keysTrackBg: d.settings.keys ? lime : 'var(--line)',
+      keysKnobX: d.settings.keys ? '25px' : '3px',
+      storageLabel: s.storage,
+      wipeLabel: s.wiped ? 'Data cleared' : 'Clear saved progress',
+      wipeData: async () => {
+        if (!window.ArcadeStore) return;
+        const fresh = await window.ArcadeStore.reset();
+        fresh.xp = 0; fresh.streak = { count: 0, lastDay: null, week: [false,false,false,false,false,false,false] };
+        fresh.achievements = []; fresh.activity = []; fresh.bests = {}; fresh.plays = {};
+        fresh.settings = Object.assign({}, fresh.settings, { theme: s.theme });
+        window.ArcadeStore.save(fresh);
+        this.setState({ data: fresh, wiped: true, scoreX: 0, scoreO: 0 });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

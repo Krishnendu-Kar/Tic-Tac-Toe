@@ -54,9 +54,9 @@ boxes.forEach((box) => {
           box.style.color="#ffc76cff";
         }
         box.disabled= true;
-        checkWinner();
+        let hasWinner = checkWinner();
 
-        if(boxCount === 9){
+        if(!hasWinner && boxCount === 9){
   console.log("Match draw");
   winmsgcon.style.display="grid";
   winmsg.innerText=`Match Draw`;
@@ -79,7 +79,7 @@ let scoreO = document.querySelector("#score-o");
 let countX= 0; 
 let countO = 0;
 const checkWinner= () => {
-  for (pattern of winPatterns)  {
+  for (let pattern of winPatterns)  {
     // console.log(boxes[pattern[0]].innerText,boxes[pattern[1]].innerText,boxes[pattern[2]].innerText);
 
     let posVal1 = boxes[pattern[0]].innerText;
@@ -99,13 +99,15 @@ const checkWinner= () => {
         winmsg.innerText=`Congratulations, Winner is ${posVal1}`;
         console.log(countX);
         console.log(countO);
-        
+
         scoreX.innerText= `${countX}`;
         scoreO.innerText= `${countO}`;
         disableBoxes();
+        return true;
       }
     }
   }
+  return false;
 }
 
 

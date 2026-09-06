@@ -89,14 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function spawnFood() {
-        food = {
-            x: Math.floor(Math.random() * tileCount),
-            y: Math.floor(Math.random() * tileCount)
-        };
-        // Ensure food doesn't spawn on snake
-        for (let part of snake) {
-            if (part.x === food.x && part.y === food.y) spawnFood();
-        }
+        let onSnake;
+        do {
+            food = {
+                x: Math.floor(Math.random() * tileCount),
+                y: Math.floor(Math.random() * tileCount)
+            };
+            onSnake = snake.some(part => part.x === food.x && part.y === food.y);
+        } while (onSnake);
     }
 
     function gameOver() {

@@ -286,6 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function minimax(board, depth, isMaximizing) {
         let result = checkWinnerForMinimax();
         if (result !== null) {
+            if (result === "tie") return 0;
             return minimaxScores[result] - depth * (result === "O" ? 1 : -1);
         }
 

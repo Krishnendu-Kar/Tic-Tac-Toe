@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+    <link rel="shortcut icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+    <link rel="apple-touch-icon" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+    <link rel="canonical" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+    <title>Retro Arcade Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="mesh-background">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+        <i class="ph-duotone ph-sun" id="theme-icon"></i>
+    </button>
+
+    <main>
+        <div style='display:flex; justify-content:center; align-items:center; margin-bottom: 1rem;'>
+            <img src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="Vilarci Logo" style="height: 50px; width: auto; border-radius: 12px; margin-right: 15px; vertical-align: middle;">
+            <h1 class="glow-text" style="margin-bottom:0;">Retro Arcade Collection</h1>
+        </div>
+
+        <div class="games-grid">
+            <!-- Tic-Tac-Toe V2 (Premium) -->
+            <a href="tic-tac-toe v2/index.html" class="game-card primary-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-game-controller game-icon"></i>
+                    <h2>Tic-Tac-Toe V2</h2>
+                    <p>The next-level experience with animations, dark mode, and an unbeatable AI.</p>
+                </div>
+            </a>
+
+            <!-- Tic-Tac-Toe V1 (Classic) -->
+            <a href="tic-tac-toe v1/index.html" class="game-card secondary-card">
+                <div class="card-content">
+                    <span class="game-icon">👾</span>
+                    <h2>Tic-Tac-Toe V1</h2>
+                    <p>The original classic version that started it all.</p>
+                </div>
+            </a>
+
+            <!-- Snake -->
+            <a href="snake/index.html" class="game-card snake-card">
+                <div class="card-content">
+                    <span class="game-icon">🐍</span>
+                    <h2>Neon Snake</h2>
+                    <p>Eat the dots and grow! Don't hit the walls or yourself.</p>
+                </div>
+            </a>
+
+            <!-- Rock Paper Scissors -->
+            <a href="rps/index.html" class="game-card rps-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-hand-fist game-icon"></i>
+                    <h2>Rock Paper Scissors</h2>
+                    <p>Quick match against the computer. Best out of 1? You decide.</p>
+                </div>
+            </a>
+
+            <!-- Memory Match -->
+            <a href="memory/index.html" class="game-card memory-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-cards game-icon"></i>
+                    <h2>Memory Match</h2>
+                    <p>Flip the cards and find all the matching pairs.</p>
+                </div>
+            </a>
+            
+            <!-- Flappy Box -->
+            <a href="flappy/index.html" class="game-card flappy-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-bird game-icon"></i>
+                    <h2>Flappy Box</h2>
+                    <p>Navigate the pipes and fly as far as you can.</p>
+                </div>
+            </a>
+
+            <!-- Ping Pong -->
+            <a href="pong/index.html" class="game-card pong-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-tennis-ball game-icon"></i>
+                    <h2>Neon Pong</h2>
+                    <p>The legendary paddle game against the computer.</p>
+                </div>
+            </a>
+
+            <!-- Whack-a-Mole -->
+            <a href="whack/index.html" class="game-card whack-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-hammer game-icon"></i>
+                    <h2>Whack-a-Mole</h2>
+                    <p>Smash the moles as fast as you can before time runs out!</p>
+                </div>
+            </a>
+
+            <!-- 2048 -->
+            <a href="2048/index.html" class="game-card game-2048-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-squares-four game-icon"></i>
+                    <h2>2048</h2>
+                    <p>Slide and combine tiles to reach the legendary 2048.</p>
+                </div>
+            </a>
+
+            <!-- Breakout -->
+            <a href="breakout/index.html" class="game-card breakout-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-bricks game-icon"></i>
+                    <h2>Neon Breakout</h2>
+                    <p>Smash through the neon bricks with your paddle.</p>
+                </div>
+            </a>
+
+            <!-- Space Invaders -->
+            <a href="space/index.html" class="game-card space-card">
+                <div class="card-content">
+                    <i class="ph-duotone ph-rocket game-icon"></i>
+                    <h2>Space Invaders</h2>
+                    <p>Defend the galaxy against waves of alien invaders.</p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <script src="theme.js"></script>
+    <script src="favicon.js"></script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="shortcut icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="apple-touch-icon" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<link rel="canonical" href="https://officialpic.vilarci.in/Icons/web-icon.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;900&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+  body { margin:0; background:#08080a; font-family:'Inter',-apple-system,sans-serif; }
+  a { color:#caff79; text-decoration:none; }
+  a:hover { color:#e8ffcc; }
+  [data-theme] { --bg:#0d0d0f; --surf:#151519; --card:#1c1c21; --ink:#f5f5f5; --mute:#8a8a93; --line:rgba(255,255,255,.08); --lime:#caff79; --limeText:#caff79; --limeInk:#111111; }
+  [data-theme="light"] { --bg:#f5f5f5; --surf:#ffffff; --card:#f1f1f1; --ink:#111111; --mute:#6b6b6b; --line:#dddddd; --limeText:#008000; }
+  [data-scroll]::-webkit-scrollbar { display:none; }
+  @keyframes popIn { from { transform:scale(.5); opacity:0 } to { transform:scale(1); opacity:1 } }
+  @keyframes fadeUp { from { transform:translateY(10px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+  @keyframes drift { from { transform:translate(0,0) scale(1) } to { transform:translate(6%,4%) scale(1.15) } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;background:radial-gradient(120% 80% at 50% 0%,#16161c 0%,#08080a 60%);font-family:'Inter',sans-serif">
+  <div data-theme="{{ theme }}" style="width:390px;height:844px;border-radius:44px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.65),0 0 0 10px #17171b,0 0 0 11px #2b2b31;display:flex;flex-direction:column;transition:background .3s,color .3s">
+
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+      <div style="position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(202,255,121,.16);filter:blur(90px);top:-90px;left:-90px;animation:drift 20s infinite alternate cubic-bezier(.4,0,.2,1)"></div>
+      <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(236,72,153,.14);filter:blur(90px);bottom:40px;right:-100px;animation:drift 24s -7s infinite alternate cubic-bezier(.4,0,.2,1)"></div>
+    </div>
+
+    <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 26px 4px;font-size:13px;font-weight:600;letter-spacing:.2px;flex:none">
+      <span>9:41</span>
+      <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+        <i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i>
+      </div>
+    </div>
+
+    <div data-scroll="1" style="position:relative;flex:1;overflow-y:auto;scrollbar-width:none">
+
+      <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:8px 20px 110px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:42px;height:42px;border-radius:13px;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-size:23px;flex:none"><i class="ph-duotone ph-game-controller"></i></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-family:'Outfit',sans-serif;font-size:21px;font-weight:900;letter-spacing:-.4px;line-height:1.1">Retro Arcade</div>
+              <div style="font-size:12px;color:var(--mute)">11 games · 4 played today</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:9999px;background:var(--card);font-size:13px;font-weight:700">🔥 {{ streak }}</div>
+          </div>
+
+          <div style="border-radius:20px;background:var(--lime);color:#111;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+              <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;opacity:.62">Today's challenge</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-top:5px;text-wrap:pretty">Survive the Impossible AI</div>
+                <div style="font-size:13px;opacity:.72;margin-top:3px">Tic-Tac-Toe · 3 rounds, no losses</div>
+              </div>
+              <div style="font-size:34px;line-height:1">🤖</div>
+            </div>
+            <button onClick="{{ startChallenge }}" style="border:0;background:#111;color:var(--lime);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:13px;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">Do it Now ▶</button>
+          </div>
+
+          <div data-scroll="1" style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.pick }}" style="border:0;flex:none;padding:9px 16px;border-radius:9999px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;background:var(--card);color:var(--mute)">
+                <sc-if value="{{ c.on }}"><span style="color:var(--limeText);font-weight:700;text-transform:uppercase;letter-spacing:.6px">{{ c.name }}</span></sc-if>
+                <sc-if value="{{ c.off }}"><span>{{ c.name }}</span></sc-if>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <div style="font-size:17px;font-weight:700">{{ catTitle }}</div>
+              <div style="font-size:12px;color:var(--mute)">{{ gameCount }} games</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+              <sc-for list="{{ games }}" as="g" hint-placeholder-count="6">
+                <button onClick="{{ g.open }}" style="border:0;text-align:left;background:var(--card);border-radius:18px;padding:14px;cursor:pointer;color:var(--ink);font-family:'Inter',sans-serif;display:flex;flex-direction:column;gap:10px;min-height:130px">
+                  <div style="width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;background:rgba(255,255,255,.06);color:{{ g.color }}"><i class="{{ g.icon }}"></i></div>
+                  <div style="flex:1">
+                    <div style="font-size:14px;font-weight:700;line-height:1.25;text-wrap:pretty">{{ g.name }}</div>
+                    <div style="font-size:11px;color:var(--mute);margin-top:3px">{{ g.tag }}</div>
+                  </div>
+                  <div style="font-size:11px;font-weight:600;color:var(--mute);display:flex;align-items:center;gap:5px"><i class="ph-fill ph-trophy" style="color:{{ g.color }}"></i>{{ g.best }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:17px;font-weight:700">Latest updates</div>
+            <div style="background:var(--card);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center">
+              <div style="width:34px;height:34px;border-radius:50%;background:rgba(236,72,153,.16);color:#ec4899;display:flex;align-items:center;justify-content:center;flex:none"><i class="ph-duotone ph-sparkle"></i></div>
+              <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">Tic-Tac-Toe V2 got a strike-line animation</div><div style="font-size:11px;color:var(--mute);margin-top:2px">2 days ago</div></div>
+            </div>
+            <div style="background:var(--card);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center">
+              <div style="width:34px;height:34px;border-radius:50%;background:rgba(34,211,238,.16);color:#22d3ee;display:flex;align-items:center;justify-content:center;flex:none"><i class="ph-duotone ph-rocket"></i></div>
+              <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">Space Invaders: wave 6 is now beatable</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Last week</div></div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDetail }}">
+        <div style="padding:8px 0 120px;animation:fadeUp .3s ease-out">
+          <div style="padding:0 20px;display:flex;justify-content:space-between;align-items:center">
+            <button onClick="{{ goHome }}" style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-left"></i></button>
+            <button style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-heart"></i></button>
+          </div>
+
+          <div style="margin:16px 20px 0;border-radius:22px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;background:{{ sel.wash }}">
+            <div style="font-size:56px;color:{{ sel.color }};line-height:1"><i class="{{ sel.icon }}"></i></div>
+            <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px">{{ sel.name }}</div>
+            <div style="font-size:13px;color:var(--mute);text-align:center;max-width:270px;text-wrap:pretty">{{ sel.desc }}</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 20px 0">
+            <div style="background:var(--card);border-radius:14px;padding:12px;text-align:center"><div style="font-size:18px;font-weight:700">{{ sel.best }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Best</div></div>
+            <div style="background:var(--card);border-radius:14px;padding:12px;text-align:center"><div style="font-size:18px;font-weight:700">{{ sel.plays }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Plays</div></div>
+            <div style="background:var(--card);border-radius:14px;padding:12px;text-align:center"><div style="font-size:18px;font-weight:700">{{ sel.rank }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Rank</div></div>
+          </div>
+
+          <sc-if value="{{ sel.isTtt }}">
+            <div style="margin:22px 20px 0;display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:15px;font-weight:700">Select mode</div>
+              <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+                <button onClick="{{ m.pick }}" style="border:0;width:100%;text-align:left;border-radius:16px;padding:14px 16px;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;background:var(--card);color:var(--ink)">
+                  <span style="font-size:20px;color:{{ m.color }}"><i class="{{ m.icon }}"></i></span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:700">{{ m.name }}</span><span style="display:block;font-size:11px;color:var(--mute);margin-top:2px">{{ m.note }}</span></span>
+                  <sc-if value="{{ m.on }}"><span style="width:20px;height:20px;border-radius:50%;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-size:12px"><i class="ph-bold ph-check"></i></span></sc-if>
+                  <sc-if value="{{ m.off }}"><span style="width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line)"></span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <div style="margin:22px 20px 0;background:var(--surf);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:15px;font-weight:700">ℹ️ How to play</div>
+            <div style="font-size:13px;color:var(--mute);line-height:1.55;text-wrap:pretty">{{ sel.how }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isGame }}">
+        <div style="padding:8px 20px 30px;display:flex;flex-direction:column;gap:18px;height:100%;box-sizing:border-box">
+          <div style="display:flex;align-items:center;gap:10px">
+            <button onClick="{{ backToDetail }}" style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);cursor:pointer;font-size:17px;flex:none;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-left"></i></button>
+            <div style="flex:1;text-align:center"><div style="font-size:15px;font-weight:700">{{ turnText }}</div><div style="font-size:11px;color:var(--mute);margin-top:1px">{{ modeLabel }}</div></div>
+            <button onClick="{{ resetRound }}" style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);cursor:pointer;font-size:17px;flex:none;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="background:var(--card);border-radius:16px;padding:12px 14px;border-bottom:3px solid #caff79"><div style="font-size:11px;color:var(--mute);letter-spacing:.5px">YOU · X</div><div style="font-size:26px;font-weight:700;font-family:'Outfit',sans-serif">{{ scoreX }}</div></div>
+            <div style="background:var(--card);border-radius:16px;padding:12px 14px;border-bottom:3px solid #ec4899"><div style="font-size:11px;color:var(--mute);letter-spacing:.5px">{{ oName }} · O</div><div style="font-size:26px;font-weight:700;font-family:'Outfit',sans-serif">{{ scoreO }}</div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <sc-for list="{{ cells }}" as="c" hint-placeholder-count="9">
+              <button onClick="{{ c.tap }}" style="position:relative;aspect-ratio:1;border:0;border-radius:18px;background:var(--card);cursor:pointer;font-family:'Outfit',sans-serif;font-size:44px;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--ink)">
+                <sc-if value="{{ c.win }}"><span style="position:absolute;inset:0;border-radius:18px;background:rgba(202,255,121,.16);box-shadow:inset 0 0 0 2px rgba(202,255,121,.6)"></span></sc-if>
+                <sc-if value="{{ c.isX }}"><span style="position:relative;color:#caff79;animation:popIn .18s ease-out;text-shadow:0 0 24px rgba(202,255,121,.45)">X</span></sc-if>
+                <sc-if value="{{ c.isO }}"><span style="position:relative;color:#ec4899;animation:popIn .18s ease-out;text-shadow:0 0 24px rgba(236,72,153,.45)">O</span></sc-if>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surf);border-radius:16px;padding:14px 16px">
+            <div style="font-size:12px;color:var(--mute)">Moves this round</div>
+            <div style="font-size:15px;font-weight:700">{{ moves }}</div>
+          </div>
+
+          <sc-if value="{{ over }}">
+            <div style="position:absolute;inset:0;background:rgba(5,5,7,.78);display:flex;align-items:center;justify-content:center;padding:28px">
+              <div style="background:var(--surf);border-radius:24px;padding:26px 22px;width:100%;text-align:center;display:flex;flex-direction:column;gap:8px;animation:fadeUp .25s ease-out;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+                <div style="font-size:40px">{{ overEmoji }}</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800">{{ overTitle }}</div>
+                <div style="font-size:13px;color:var(--mute)">{{ overNote }}</div>
+                <button onClick="{{ resetRound }}" style="margin-top:12px;border:0;background:var(--lime);color:#111;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer">Play Again</button>
+                <button onClick="{{ backToDetail }}" style="border:0;background:transparent;color:var(--mute);font-family:'Inter',sans-serif;font-size:13px;padding:6px;cursor:pointer">Leave game</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isChallenges }}">
+        <div style="padding:8px 20px 110px;display:flex;flex-direction:column;gap:20px">
+          <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px">Challenges</div>
+
+          <div style="background:var(--card);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:15px;font-weight:700">Current streak</div><div style="font-size:13px;color:var(--mute)">Best: 14 days</div></div>
+            <div style="display:flex;justify-content:space-between;gap:6px">
+              <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+                  <div style="font-size:10px;color:var(--mute)">{{ d.label }}</div>
+                  <sc-if value="{{ d.done }}"><div style="width:32px;height:32px;border-radius:50%;background:#b4ff9c;color:#111;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">✓</div></sc-if>
+                  <sc-if value="{{ d.today }}"><div style="width:32px;height:32px;border-radius:50%;border:2px dashed var(--limeText);color:var(--limeText);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ d.n }}</div></sc-if>
+                  <sc-if value="{{ d.todo }}"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);color:var(--mute);display:flex;align-items:center;justify-content:center;font-size:12px">{{ d.n }}</div></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="border-radius:20px;background:var(--lime);color:#111;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;opacity:.62">Today · expires in 7h</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;line-height:1.2">Survive the Impossible AI</div>
+            <div style="height:8px;border-radius:9999px;background:rgba(0,0,0,.14);overflow:hidden"><div style="width:33%;height:100%;background:#111"></div></div>
+            <div style="font-size:12px;opacity:.7">1 of 3 rounds drawn or won</div>
+            <button onClick="{{ startChallenge }}" style="border:0;background:#111;color:var(--lime);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;padding:13px;border-radius:14px;cursor:pointer">Continue ▶</button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:17px;font-weight:700">This week</div>
+            <sc-for list="{{ weekly }}" as="w" hint-placeholder-count="3">
+              <div style="background:var(--card);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:19px;color:{{ w.color }};flex:none"><i class="{{ w.icon }}"></i></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">{{ w.name }}</div><div style="font-size:11px;color:var(--mute);margin-top:2px">{{ w.sub }}</div></div>
+                  <div style="font-size:12px;font-weight:700;color:var(--limeText)">+{{ w.xp }} XP</div>
+                </div>
+                <div style="height:6px;border-radius:9999px;background:var(--surf);overflow:hidden"><div style="height:100%;background:var(--lime);width:{{ w.pct }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isScores }}">
+        <div style="padding:8px 20px 110px;display:flex;flex-direction:column;gap:18px">
+          <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px">Scores</div>
+
+          <div style="display:flex;background:var(--card);border-radius:9999px;padding:4px">
+            <sc-for list="{{ scopes }}" as="s" hint-placeholder-count="2">
+              <button onClick="{{ s.pick }}" style="flex:1;border:0;padding:10px;border-radius:9999px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;background:{{ s.bg }};color:{{ s.fg }};font-weight:600">{{ s.name }}</button>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;align-items:flex-end;gap:10px;padding:6px 0">
+            <sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+                <div style="width:52px;height:52px;border-radius:50%;background:{{ p.wash }};color:{{ p.color }};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-family:'Outfit',sans-serif">{{ p.initials }}</div>
+                <div style="font-size:12px;font-weight:600;text-align:center">{{ p.name }}</div>
+                <div style="width:100%;border-radius:14px 14px 0 0;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:10px;gap:2px;height:{{ p.h }}">
+                  <div style="font-size:18px">{{ p.medal }}</div>
+                  <div style="font-size:13px;font-weight:700">{{ p.score }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ board }}" as="r" hint-placeholder-count="5">
+              <div style="background:{{ r.bg }};border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+                <div style="width:22px;font-size:13px;font-weight:700;color:var(--mute);text-align:center">{{ r.rank }}</div>
+                <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ r.initials }}</div>
+                <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600">{{ r.name }}</div><div style="font-size:11px;color:var(--mute);margin-top:1px">{{ r.detail }}</div></div>
+                <div style="font-size:15px;font-weight:700;font-family:'Outfit',sans-serif">{{ r.score }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:17px;font-weight:700">Your personal bests</div>
+            <sc-for list="{{ bests }}" as="b" hint-placeholder-count="4">
+              <div style="background:var(--card);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+                <span style="font-size:18px;color:{{ b.color }}"><i class="{{ b.icon }}"></i></span>
+                <span style="flex:1;font-size:13px;font-weight:600">{{ b.name }}</span>
+                <span style="font-size:14px;font-weight:700">{{ b.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isProfile }}">
+        <div style="padding:8px 20px 110px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px">Profile</div>
+            <button onClick="{{ openSettings }}" style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph-duotone ph-gear"></i></button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:64px;height:64px;border-radius:22px;background:var(--lime);color:#111;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;flex:none">KK</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:19px;font-weight:700">Krishnendu</div>
+              <div style="font-size:12px;color:var(--mute);margin-top:2px">Level 12 · Arcade Regular</div>
+              <div style="height:6px;border-radius:9999px;background:var(--card);margin-top:8px;overflow:hidden"><div style="width:68%;height:100%;background:var(--lime)"></div></div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div style="background:var(--card);border-radius:16px;padding:14px 10px;text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Outfit',sans-serif">248</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Games</div></div>
+            <div style="background:var(--card);border-radius:16px;padding:14px 10px;text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Outfit',sans-serif">61%</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Win rate</div></div>
+            <div style="background:var(--card);border-radius:16px;padding:14px 10px;text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Outfit',sans-serif">14</div><div style="font-size:11px;color:var(--mute);margin-top:2px">Best streak</div></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:17px;font-weight:700">Achievements</div><div style="font-size:12px;color:var(--mute)">7 of 24</div></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+              <sc-for list="{{ badges }}" as="b" hint-placeholder-count="8">
+                <div style="aspect-ratio:1;border-radius:16px;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:{{ b.op }}">
+                  <div style="font-size:20px">{{ b.emoji }}</div>
+                  <div style="font-size:9px;color:var(--mute);text-align:center;line-height:1.1;padding:0 4px">{{ b.name }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:17px;font-weight:700">Recent activity</div>
+            <sc-for list="{{ activity }}" as="a" hint-placeholder-count="3">
+              <div style="background:var(--card);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+                <span style="font-size:18px;color:{{ a.color }}"><i class="{{ a.icon }}"></i></span>
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:600">{{ a.name }}</span><span style="display:block;font-size:11px;color:var(--mute);margin-top:1px">{{ a.when }}</span></span>
+                <span style="font-size:12px;font-weight:700;color:{{ a.resColor }}">{{ a.result }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettings }}">
+        <div style="padding:8px 20px 110px;display:flex;flex-direction:column;gap:20px;animation:fadeUp .25s ease-out">
+          <div style="display:flex;align-items:center;gap:12px">
+            <button onClick="{{ backToProfile }}" style="width:38px;height:38px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-left"></i></button>
+            <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.4px">Settings</div>
+          </div>
+
+          <div style="background:var(--card);border-radius:18px;overflow:hidden">
+            <button onClick="{{ toggleTheme }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--line)">
+              <span style="font-size:19px;color:var(--limeText)"><i class="ph-duotone ph-moon"></i></span>
+              <span style="flex:1;text-align:left;font-size:14px;font-weight:600">Dark arcade mode</span>
+              <span style="width:46px;height:26px;border-radius:9999px;background:{{ themeTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ themeKnobX }};width:20px;height:20px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+            </button>
+            <button onClick="{{ toggleSound }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--line)">
+              <span style="font-size:19px;color:var(--limeText)"><i class="ph-duotone ph-speaker-high"></i></span>
+              <span style="flex:1;text-align:left;font-size:14px;font-weight:600">Sound effects</span>
+              <span style="width:46px;height:26px;border-radius:9999px;background:{{ soundTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ soundKnobX }};width:20px;height:20px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+            </button>
+            <button onClick="{{ toggleHaptics }}" style="width:100%;border:0;background:transparent;color:var(--ink);font-family:'Inter',sans-serif;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer">
+              <span style="font-size:19px;color:var(--limeText)"><i class="ph-duotone ph-vibrate"></i></span>
+              <span style="flex:1;text-align:left;font-size:14px;font-weight:600">Haptics</span>
+              <span style="width:46px;height:26px;border-radius:9999px;background:{{ hapticsTrackBg }};position:relative;flex:none;transition:background .3s"><span style="position:absolute;top:3px;left:{{ hapticsKnobX }};width:20px;height:20px;border-radius:50%;background:#111;transition:left .25s"></span></span>
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:13px;color:var(--mute);letter-spacing:.4px">DEFAULT AI DIFFICULTY</div>
+            <div style="display:flex;gap:8px">
+              <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+                <button onClick="{{ m.pick }}" style="flex:1;border:0;border-radius:12px;padding:12px 4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;background:{{ m.chipBg }};color:{{ m.chipFg }}">{{ m.short }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:var(--surf);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--mute)">
+            <div style="display:flex;justify-content:space-between"><span>Version</span><span style="color:var(--ink);font-weight:600">2.4.0</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Games installed</span><span style="color:var(--ink);font-weight:600">11</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Built by</span><span style="color:var(--ink);font-weight:600">Krishnendu Kar</span></div>
+          </div>
+
+          <button style="border:0;background:transparent;color:#d9534f;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer;border:1px solid rgba(217,83,79,.35)">Log out</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ isDetail }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:24px 20px 26px;background:linear-gradient(to top,var(--bg) 62%,transparent);z-index:5">
+        <button onClick="{{ playGame }}" style="width:100%;border:0;background:var(--lime);color:#111;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;padding:16px;border-radius:16px;cursor:pointer">{{ playLabel }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;display:flex;padding:10px 8px 26px;background:var(--surf);border-top:1px solid var(--line);z-index:5">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <button onClick="{{ t.pick }}" style="flex:1;border:0;background:transparent;cursor:pointer;font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0">
+            <sc-if value="{{ t.on }}">
+              <span style="font-size:22px;color:var(--limeText)"><i class="{{ t.iconOn }}"></i></span>
+              <span style="font-size:10px;font-weight:700;color:var(--limeText);text-transform:uppercase;letter-spacing:.6px">{{ t.name }}</span>
+            </sc-if>
+            <sc-if value="{{ t.off }}">
+              <span style="font-size:22px;color:var(--mute)"><i class="{{ t.icon }}"></i></span>
+              <span style="font-size:10px;color:var(--mute)">{{ t.name }}</span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:520,&quot;height&quot;:940},&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light' | 'dark'&quot;},&quot;defaultMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pvp&quot;,&quot;easy&quot;,&quot;medium&quot;,&quot;hard&quot;],&quot;default&quot;:&quot;hard&quot;,&quot;tsType&quot;:&quot;'pvp' | 'easy' | 'medium' | 'hard'&quot;}}">
+const GAMES = [
+  { id:'ttt2', name:'Tic-Tac-Toe V2', tag:'Classic · vs AI', icon:'ph-duotone ph-game-controller', color:'#ec4899', wash:'rgba(236,72,153,.12)', best:'23 wins', plays:'86', rank:'#2', cat:'Classic', desc:'The next-level experience with animations, dark mode and an unbeatable minimax AI.', how:'Get three in a row — across, down or diagonally. You play X and always move first. On Impossible the AI never loses, so a draw is a win.' },
+  { id:'ttt1', name:'Tic-Tac-Toe V1', tag:'Classic · original', icon:'ph-duotone ph-squares-four', color:'#3b82f6', wash:'rgba(59,130,246,.12)', best:'11 wins', plays:'24', rank:'#7', cat:'Classic', desc:'The original classic version that started it all.', how:'Two players share the phone and take turns tapping a square. First to three in a row wins.' },
+  { id:'snake', name:'Neon Snake', tag:'Arcade · endless', icon:'ph-duotone ph-path', color:'#10b981', wash:'rgba(16,185,129,.12)', best:'1,420', plays:'52', rank:'#4', cat:'Arcade', desc:"Eat the dots and grow. Don't hit the walls or yourself.", how:'Swipe to steer. Every dot adds a segment and a little speed.' },
+  { id:'2048', name:'2048', tag:'Puzzle · tiles', icon:'ph-duotone ph-grid-four', color:'#f59e0b', wash:'rgba(245,158,11,.12)', best:'8,192', plays:'40', rank:'#1', cat:'Puzzle', desc:'Slide and combine tiles to reach the legendary 2048.', how:'Swipe to slide every tile. Equal tiles merge and double.' },
+  { id:'pong', name:'Neon Pong', tag:'Reflex · vs AI', icon:'ph-duotone ph-tennis-ball', color:'#06b6d4', wash:'rgba(6,182,212,.12)', best:'11–4', plays:'31', rank:'#5', cat:'Reflex', desc:'The legendary paddle game against the computer.', how:'Drag your paddle. First to 11 points takes the match.' },
+  { id:'breakout', name:'Neon Breakout', tag:'Arcade · bricks', icon:'ph-duotone ph-wall', color:'#a855f7', wash:'rgba(168,85,247,.12)', best:'6,780', plays:'19', rank:'#6', cat:'Arcade', desc:'Smash through the neon bricks with your paddle.', how:'Keep the ball alive. Clear every brick to advance a level.' },
+  { id:'space', name:'Space Invaders', tag:'Arcade · waves', icon:'ph-duotone ph-rocket', color:'#22d3ee', wash:'rgba(34,211,238,.12)', best:'Wave 6', plays:'27', rank:'#3', cat:'Arcade', desc:'Defend the galaxy against waves of alien invaders.', how:'Move left and right, tap to fire. Waves get faster each round.' },
+  { id:'flappy', name:'Flappy Box', tag:'Reflex · endless', icon:'ph-duotone ph-bird', color:'#eab308', wash:'rgba(234,179,8,.12)', best:'64', plays:'71', rank:'#8', cat:'Reflex', desc:'Navigate the pipes and fly as far as you can.', how:'Tap to flap. One pipe cleared is one point.' },
+  { id:'memory', name:'Memory Match', tag:'Puzzle · pairs', icon:'ph-duotone ph-cards', color:'#a855f7', wash:'rgba(168,85,247,.12)', best:'0:38', plays:'22', rank:'#4', cat:'Puzzle', desc:'Flip the cards and find all the matching pairs.', how:'Flip two cards. Matching pairs stay up — clear the grid fastest.' },
+  { id:'rps', name:'Rock Paper Scissors', tag:'Classic · quick', icon:'ph-duotone ph-hand-fist', color:'#f43f5e', wash:'rgba(244,63,94,.12)', best:'9 streak', plays:'44', rank:'#3', cat:'Classic', desc:'Quick match against the computer. Best out of 1? You decide.', how:'Pick a throw. Rock beats scissors, scissors beats paper, paper beats rock.' },
+  { id:'whack', name:'Whack-a-Mole', tag:'Reflex · timed', icon:'ph-duotone ph-hammer', color:'#f97316', wash:'rgba(249,115,22,.12)', best:'38', plays:'16', rank:'#9', cat:'Reflex', desc:'Smash the moles as fast as you can before time runs out!', how:'Tap every mole that pops up. 30 seconds on the clock.' }
+];
+
+const MODES = [
+  { id:'pvp', name:'Player vs. Player', short:'2P', note:'Share the phone, take turns', icon:'ph-duotone ph-users-three', color:'#3b82f6' },
+  { id:'easy', name:'Easy', short:'Easy', note:'AI plays at random', icon:'ph-duotone ph-smiley', color:'#10b981' },
+  { id:'medium', name:'Medium', short:'Med', note:'AI blocks and takes wins', icon:'ph-duotone ph-target', color:'#eab308' },
+  { id:'hard', name:'Impossible', short:'Hard', note:'Minimax — it never loses', icon:'ph-duotone ph-skull', color:'#f43f5e' }
+];
+
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+function winnerOf(b) {
+  for (const L of LINES) if (b[L[0]] && b[L[0]] === b[L[1]] && b[L[1]] === b[L[2]]) return { mark:b[L[0]], line:L };
+  return b.every(Boolean) ? { mark:'draw', line:null } : null;
+}
+function minimax(b, me, turn) {
+  const w = winnerOf(b);
+  if (w) return { score: w.mark === 'draw' ? 0 : (w.mark === me ? 10 : -10) };
+  let best = null;
+  for (let i = 0; i < 9; i++) {
+    if (b[i]) continue;
+    b[i] = turn;
+    const s = minimax(b, me, turn === 'X' ? 'O' : 'X').score;
+    b[i] = '';
+    const adj = s > 0 ? s - 1 : (s < 0 ? s + 1 : 0);
+    if (!best || (turn === me ? adj > best.score : adj < best.score)) best = { score: adj, move: i };
+  }
+  return best;
+}
+function findLine(b, mark) {
+  for (const L of LINES) {
+    const v = L.map(i => b[i]);
+    if (v.filter(x => x === mark).length === 2 && v.includes('')) return L[v.indexOf('')];
+  }
+  return -1;
+}
+
+class Component extends DCLogic {
+  state = {
+    tab: 'play', screen: 'home', gameId: 'ttt2',
+    mode: this.props.defaultMode || 'hard', cat: 'All',
+    board: Array(9).fill(''), turn: 'X', result: null, line: null,
+    scoreX: 2, scoreO: 1, moves: 0,
+    theme: this.props.defaultTheme || 'light', sound: true, haptics: false, scope: 'Friends'
+  };
+
+  go = (screen, extra) => this.setState(Object.assign({ screen }, extra || {}));
+  newRound = () => this.setState({ board: Array(9).fill(''), turn: 'X', result: null, line: null, moves: 0 });
+
+  aiMove(board, mode) {
+    const empty = board.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+    if (!empty.length) return -1;
+    if (mode === 'easy') return empty[Math.floor(Math.random() * empty.length)];
+    if (mode === 'medium') {
+      const win = findLine(board, 'O'); if (win >= 0) return win;
+      const block = findLine(board, 'X'); if (block >= 0) return block;
+      return empty.includes(4) ? 4 : empty[Math.floor(Math.random() * empty.length)];
+    }
+    return minimax(board.slice(), 'O', 'O').move;
+  }
+
+  settle(board, moves, turn) {
+    const w = winnerOf(board);
+    if (!w) { this.setState({ board, moves, turn }); return true; }
+    this.setState(s => ({
+      board, moves, turn, result: w.mark, line: w.line,
+      scoreX: s.scoreX + (w.mark === 'X' ? 1 : 0),
+      scoreO: s.scoreO + (w.mark === 'O' ? 1 : 0)
+    }));
+    return false;
+  }
+
+  tap = (i) => {
+    const s = this.state;
+    if (s.result || s.board[i]) return;
+    const board = s.board.slice();
+    board[i] = s.turn;
+    const moves = s.moves + 1;
+    if (s.mode === 'pvp') { this.settle(board, moves, s.turn === 'X' ? 'O' : 'X'); return; }
+    if (!this.settle(board, moves, 'O')) return;
+    setTimeout(() => {
+      const cur = this.state;
+      if (cur.result) return;
+      const m = this.aiMove(cur.board, cur.mode);
+      if (m < 0) return;
+      const nb = cur.board.slice();
+      nb[m] = 'O';
+      this.settle(nb, cur.moves + 1, 'X');
+    }, 420);
+  };
+
+  renderVals() {
+    const s = this.state;
+    const sel = GAMES.find(g => g.id === s.gameId) || GAMES[0];
+    const list = s.cat === 'All' ? GAMES : GAMES.filter(g => g.cat === s.cat);
+    const lime = '#caff79';
+    const tabDef = [
+      { id:'play', name:'Play', screen:'home', icon:'ph-duotone ph-game-controller', iconOn:'ph-fill ph-game-controller' },
+      { id:'challenges', name:'Challenges', screen:'challenges', icon:'ph-duotone ph-lightning', iconOn:'ph-fill ph-lightning' },
+      { id:'scores', name:'Scores', screen:'scores', icon:'ph-duotone ph-trophy', iconOn:'ph-fill ph-trophy' },
+      { id:'profile', name:'Profile', screen:'profile', icon:'ph-duotone ph-user', iconOn:'ph-fill ph-user' }
+    ];
+    const overMap = {
+      X: { emoji:'🏆', title: s.mode === 'pvp' ? 'Player X wins!' : 'You win!', note:'Three in a row. Total moves: ' + s.moves },
+      O: { emoji:'🤖', title: s.mode === 'pvp' ? 'Player O wins!' : 'AI takes it', note:'Total moves: ' + s.moves },
+      draw: { emoji:'🤝', title:'Draw', note: s.mode === 'hard' ? 'A draw against Impossible counts as a win.' : 'Nobody got three. Total moves: ' + s.moves }
+    };
+    const over = overMap[s.result] || overMap.draw;
+    const friends = [
+      { rank:4, name:'You', initials:'KK', detail:'248 games · 61% wins', score:'8,192' },
+      { rank:5, name:'Rohit S.', initials:'RS', detail:'190 games · 55% wins', score:'7,940' },
+      { rank:6, name:'Ananya D.', initials:'AD', detail:'171 games · 58% wins', score:'7,510' },
+      { rank:7, name:'Vikram P.', initials:'VP', detail:'155 games · 49% wins', score:'6,880' },
+      { rank:8, name:'Meera J.', initials:'MJ', detail:'132 games · 52% wins', score:'6,240' }
+    ];
+
+    return {
+      theme: s.theme,
+      isHome: s.screen === 'home', isDetail: s.screen === 'detail', isGame: s.screen === 'game',
+      isChallenges: s.screen === 'challenges', isScores: s.screen === 'scores',
+      isProfile: s.screen === 'profile', isSettings: s.screen === 'settings',
+      showTabs: s.screen !== 'game' && s.screen !== 'detail',
+      streak: 6,
+      catTitle: s.cat === 'All' ? 'Most popular' : s.cat + ' games',
+      gameCount: list.length,
+      cats: ['All','Classic','Arcade','Puzzle','Reflex'].map(c => ({
+        name: c, on: s.cat === c, off: s.cat !== c, pick: () => this.setState({ cat: c })
+      })),
+      games: list.map(g => Object.assign({}, g, { open: () => this.go('detail', { gameId: g.id }) })),
+      sel: Object.assign({}, sel, { isTtt: sel.id === 'ttt2' }),
+      modes: MODES.map(m => ({
+        id: m.id, name: m.name, short: m.short, note: m.note, icon: m.icon, color: m.color,
+        on: s.mode === m.id, off: s.mode !== m.id,
+        chipBg: s.mode === m.id ? lime : 'var(--card)',
+        chipFg: s.mode === m.id ? '#111' : 'var(--mute)',
+        pick: () => this.setState({ mode: m.id })
+      })),
+      playLabel: sel.id === 'ttt2' ? 'Play Now ▶' : 'Coming soon in this prototype',
+      playGame: () => { if (sel.id === 'ttt2') { this.newRound(); this.go('game'); } },
+      goHome: () => this.go('home'),
+      backToDetail: () => this.go('detail'),
+      backToProfile: () => this.go('profile'),
+      openSettings: () => this.go('settings'),
+      startChallenge: () => { this.setState({ gameId:'ttt2', mode:'hard' }); this.newRound(); this.go('game'); },
+      cells: s.board.map((v, i) => ({
+        isX: v === 'X', isO: v === 'O',
+        win: !!(s.line && s.line.indexOf(i) >= 0),
+        tap: () => this.tap(i)
+      })),
+      turnText: s.result ? 'Round over' : (s.turn === 'X' ? 'Your turn · X' : (s.mode === 'pvp' ? "Player O's turn" : 'AI thinking…')),
+      modeLabel: (MODES.find(m => m.id === s.mode) || MODES[3]).name + ' · Tic-Tac-Toe V2',
+      oName: s.mode === 'pvp' ? 'PLAYER O' : 'AI',
+      scoreX: s.scoreX, scoreO: s.scoreO, moves: s.moves,
+      over: !!s.result, overEmoji: over.emoji, overTitle: over.title, overNote: over.note,
+      resetRound: this.newRound,
+      week: ['M','T','W','T','F','S','S'].map((d, i) => ({
+        label: d, n: 1 + i, done: i < 4, today: i === 4, todo: i > 4
+      })),
+      weekly: [
+        { name:'Clear 5 Memory boards', sub:'3 of 5 done', xp:120, pct:'60%', icon:'ph-duotone ph-cards', color:'#a855f7' },
+        { name:'Reach 4,096 in 2048', sub:'Best this week: 2,048', xp:200, pct:'45%', icon:'ph-duotone ph-grid-four', color:'#f59e0b' },
+        { name:'Win 3 Pong matches', sub:'1 of 3 done', xp:90, pct:'33%', icon:'ph-duotone ph-tennis-ball', color:'#06b6d4' }
+      ],
+      scopes: ['Friends','Global'].map(n => ({
+        name: n, pick: () => this.setState({ scope: n }),
+        bg: s.scope === n ? lime : 'transparent',
+        fg: s.scope === n ? '#111' : 'var(--mute)'
+      })),
+      podium: [
+        { name:'Ishaan', initials:'IR', medal:'🥈', score:'9,410', h:'62px', color:'#22d3ee', wash:'rgba(34,211,238,.16)' },
+        { name:'Priya', initials:'PN', medal:'🥇', score:'11,208', h:'86px', color:'var(--limeText)', wash:'rgba(202,255,121,.18)' },
+        { name:'Dev', initials:'DM', medal:'🥉', score:'8,760', h:'46px', color:'#ec4899', wash:'rgba(236,72,153,.16)' }
+      ],
+      board: friends.map(r => Object.assign({}, r, {
+        bg: r.name === 'You' ? 'rgba(202,255,121,.12)' : 'var(--card)'
+      })),
+      bests: [
+        { name:'2048', value:'8,192', icon:'ph-duotone ph-grid-four', color:'#f59e0b' },
+        { name:'Neon Snake', value:'1,420', icon:'ph-duotone ph-path', color:'#10b981' },
+        { name:'Flappy Box', value:'64', icon:'ph-duotone ph-bird', color:'#eab308' },
+        { name:'Tic-Tac-Toe V2 (Impossible)', value:'23 draws', icon:'ph-duotone ph-skull', color:'#f43f5e' }
+      ],
+      badges: [
+        { emoji:'🔥', name:'7-day', op:1 }, { emoji:'🏆', name:'First win', op:1 },
+        { emoji:'🤖', name:'Beat AI', op:1 }, { emoji:'⚡', name:'Speedrun', op:1 },
+        { emoji:'🐍', name:'1000 pts', op:1 }, { emoji:'🎯', name:'Perfect', op:1 },
+        { emoji:'🚀', name:'Wave 10', op:.32 }, { emoji:'👑', name:'All games', op:.32 }
+      ],
+      activity: [
+        { name:'Tic-Tac-Toe V2 · Impossible', when:'12 min ago', result:'Draw', resColor:'var(--limeText)', icon:'ph-duotone ph-game-controller', color:'#ec4899' },
+        { name:'2048', when:'Today, 08:20', result:'8,192', resColor:'var(--ink)', icon:'ph-duotone ph-grid-four', color:'#f59e0b' },
+        { name:'Neon Pong', when:'Yesterday', result:'Lost', resColor:'#d9534f', icon:'ph-duotone ph-tennis-ball', color:'#06b6d4' }
+      ],
+      tabs: tabDef.map(t => ({
+        name: t.name, icon: t.icon, iconOn: t.iconOn,
+        on: s.tab === t.id, off: s.tab !== t.id,
+        pick: () => this.setState({ tab: t.id, screen: t.screen })
+      })),
+      toggleTheme: () => this.setState(p => ({ theme: p.theme === 'dark' ? 'light' : 'dark' })),
+      toggleSound: () => this.setState(p => ({ sound: !p.sound })),
+      toggleHaptics: () => this.setState(p => ({ haptics: !p.haptics })),
+      themeTrackBg: s.theme === 'dark' ? lime : 'var(--line)',
+      themeKnobX: s.theme === 'dark' ? '23px' : '3px',
+      soundTrackBg: s.sound ? lime : 'var(--line)',
+      soundKnobX: s.sound ? '23px' : '3px',
+      hapticsTrackBg: s.haptics ? lime : 'var(--line)',
+      hapticsKnobX: s.haptics ? '23px' : '3px'
+    };
+  }
+}
+</script>
+</body>
+</html>
