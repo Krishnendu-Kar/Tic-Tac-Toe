@@ -1,0 +1,785 @@
+/* ==========================================================================
+   Retro Arcade Collection — Shared responsive layer
+   --------------------------------------------------------------------------
+   Loaded AFTER each game's own stylesheet, so every rule here is an
+   intentional override. One file keeps all 11 games behaving the same way on
+   every screen: small phones, notched devices, landscape, tablets, laptops
+   and ultra-wide displays.
+
+   Sections
+     1. Tokens & viewport plumbing
+     2. Chrome: theme toggle, back button, header
+     3. Fluid typography & spacing
+     4. Panels, scoreboards, overlays
+     5. Per-game board tuning
+     6. Touch controls (D-pad / hint)
+     7. Landscape + very small screens
+     8. Large & ultra-wide screens
+     9. Accessibility: focus, motion, hover
+   ========================================================================== */
+
+/* -- 1. Tokens & viewport plumbing ---------------------------------------- */
+
+:root {
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+
+    /* Minimum comfortable touch target (WCAG 2.5.5 / platform guidance). */
+    --tap: 44px;
+
+    /* Fluid gutter: 12px on a small phone, 24px from tablet up. */
+    --gutter: clamp(0.75rem, 2.5vw, 1.5rem);
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    /* dvh tracks the collapsing mobile URL bar; vh stays as the fallback. */
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: var(--safe-t);
+    padding-right: var(--safe-r);
+    padding-bottom: var(--safe-b);
+    padding-left: var(--safe-l);
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    /* Games set `touch-action: none` on <body>, which also kills scrolling and
+       delays taps. Scope it back down to the play surface below. */
+    touch-action: manipulation;
+}
+
+/* Only the board itself swallows gestures. */
+canvas,
+.memory-grid,
+.board,
+.game {
+    touch-action: none;
+}
+
+main {
+    width: min(100%, 1100px);
+    max-width: 100%;
+    padding-inline: var(--gutter);
+    box-sizing: border-box;
+}
+
+/* -- 2. Chrome: theme toggle, back button, header ------------------------- */
+
+/* The toggle ships with inline styles (position:absolute, fixed 45px box), so
+   these need !important to win. Fixed + safe-area keeps it clear of the notch
+   and in reach once the page scrolls. */
+.theme-toggle {
+    position: fixed !important;
+    top: calc(var(--safe-t) + 12px) !important;
+    right: calc(var(--safe-r) + 12px) !important;
+    width: var(--tap) !important;
+    height: var(--tap) !important;
+    z-index: 200 !important;
+    touch-action: manipulation;
+}
+
+.btn-back {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: var(--tap);
+    padding: 0.5rem 1rem !important;
+    border-radius: 999px !important;
+    white-space: nowrap;
+    /* Snake parks this at left:-20px, which clips off-screen below ~700px. */
+    left: 0 !important;
+    touch-action: manipulation;
+}
+
+main .header {
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
+    box-sizing: border-box;
+}
+
+/* Below the desktop breakpoint the centred title would sit under the back
+   button, so reserve a band for it instead of overlapping. */
+@media (max-width: 860px) {
+    main .header {
+        padding-top: 3.25rem;
+    }
+
+    .btn-back {
+        top: 0 !important;
+    }
+}
+
+/* -- 3. Fluid typography & spacing ---------------------------------------- */
+
+main .header h1,
+main .header .glow-text {
+    font-size: clamp(1.35rem, 5.5vw, 3rem) !important;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+/* The brand logo is inline-styled at a fixed 50px on most pages. */
+main .header img,
+.brand-logo {
+    height: clamp(28px, 7vw, 50px) !important;
+    width: auto !important;
+    margin-right: clamp(8px, 2vw, 15px) !important;
+    flex: none;
+}
+
+main .header > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0 !important;
+    max-width: 100%;
+}
+
+main {
+    gap: var(--gutter) !important;
+}
+
+/* -- 4. Panels, scoreboards, overlays ------------------------------------- */
+
+.glass-panel {
+    padding: clamp(0.85rem, 3vw, 2rem) !important;
+    border-radius: clamp(16px, 3vw, 24px) !important;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.scoreboard,
+.stats,
+.score-board {
+    gap: clamp(0.5rem, 2vw, 1rem) !important;
+    margin-bottom: clamp(0.75rem, 2.5vw, 1.5rem) !important;
+    flex-wrap: wrap;
+}
+
+.score-card,
+.stat-card {
+    padding: clamp(0.5rem, 2vw, 1rem) !important;
+    min-width: 0;
+}
+
+.score-card .label,
+.stat-card .label,
+.score-card .player-name {
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem) !important;
+}
+
+.score-card .value,
+.stat-card .value,
+.score-card .score-value {
+    font-size: clamp(1.25rem, 4.5vw, 2rem) !important;
+    line-height: 1.15;
+}
+
+/* Overlay headings carry inline font sizes on several pages. */
+.overlay h2,
+#game-over h2,
+.overlay .glow-text,
+#game-over .glow-text {
+    font-size: clamp(1.15rem, 5vw, 2rem) !important;
+    text-align: center;
+    padding-inline: 1rem;
+    line-height: 1.25;
+}
+
+.overlay p,
+#game-over p {
+    font-size: clamp(0.95rem, 3.5vw, 1.5rem) !important;
+    text-align: center;
+}
+
+.overlay,
+#game-over {
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.btn-primary,
+.btn,
+.menu-btn,
+.reset,
+.ctrl-btn {
+    min-height: var(--tap);
+    font-size: clamp(0.95rem, 3vw, 1.2rem) !important;
+    padding: 0.75rem clamp(1rem, 4vw, 2rem) !important;
+    touch-action: manipulation;
+}
+
+/* -- 5. Per-game board tuning --------------------------------------------- */
+
+/* Canvas games.
+   Every board draws into a fixed-size buffer (snake 400x400, breakout and pong
+   800x600, flappy 400x600, space 600x600) and is then scaled by CSS. The games
+   capped `width:100%` *and* `max-height:55vh` at once, and when both bind the
+   board stretches off-ratio — visibly so on a wide laptop. Cap only the width,
+   derived from the height budget times the buffer ratio, and let the height
+   follow.  */
+canvas {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    margin-inline: auto;
+}
+
+/* Pong and Flappy give the container `flex: 1`, so with the aspect-ratio gone
+   it would stretch to fill the panel and drag the absolutely positioned
+   overlays out to full height with it. Let it hug the canvas instead and
+   centre the leftover space. */
+[data-game="breakout"] .game-container,
+[data-game="pong"] .game-container,
+[data-game="flappy"] .game-container,
+[data-game="space"] .game-container {
+    aspect-ratio: auto !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    margin-block: auto;
+    margin-inline: auto;
+}
+
+[data-game="breakout"] canvas,
+[data-game="pong"] canvas,
+[data-game="flappy"] canvas,
+[data-game="space"] canvas {
+    width: 100% !important;
+}
+
+/* 55vh of height budget, converted to a width cap by the buffer ratio. */
+[data-game="snake"] canvas,
+[data-game="space"] .game-container {
+    /* 1:1 */
+    width: min(100%, 55vh) !important;
+    width: min(100%, 55dvh) !important;
+}
+
+[data-game="breakout"] .game-container,
+[data-game="pong"] .game-container {
+    /* 4:3 -> 55 * 4/3 */
+    width: min(100%, 73vh) !important;
+    width: min(100%, 73dvh) !important;
+}
+
+[data-game="flappy"] .game-container {
+    /* 2:3 -> 55 * 2/3 */
+    width: min(100%, 36vh) !important;
+    width: min(100%, 36dvh) !important;
+}
+
+/* Memory Match */
+.memory-grid {
+    max-height: min(60vh, 60dvh) !important;
+    gap: clamp(6px, 1.6vw, 10px) !important;
+}
+
+.card-face {
+    font-size: clamp(1.4rem, 7vw, 2.5rem) !important;
+    border-radius: clamp(8px, 2vw, 12px) !important;
+}
+
+/* 2048 and Whack-a-Mole share the `.grid` class. */
+.grid {
+    gap: clamp(6px, 1.8vw, 15px) !important;
+}
+
+.tile {
+    font-size: clamp(1rem, 6vw, 2rem) !important;
+}
+
+.tile-128,
+.tile-256,
+.tile-512 {
+    font-size: clamp(0.85rem, 5vw, 1.5rem) !important;
+}
+
+.tile-1024,
+.tile-2048 {
+    font-size: clamp(0.7rem, 4.2vw, 1.2rem) !important;
+}
+
+/* The mole eyes are absolutely positioned 10px dots; scale them with the hole
+   so they do not dominate a small board. */
+.mole::after {
+    width: clamp(6px, 1.6vw, 10px) !important;
+    height: clamp(6px, 1.6vw, 10px) !important;
+    box-shadow: clamp(14px, 4vw, 25px) 0 0 black !important;
+}
+
+/* Rock Paper Scissors */
+.battle-arena {
+    gap: clamp(0.75rem, 4vw, 2rem) !important;
+    margin-bottom: clamp(1rem, 4vw, 2rem) !important;
+}
+
+.choice-display {
+    width: clamp(64px, 20vw, 100px) !important;
+    height: clamp(64px, 20vw, 100px) !important;
+    font-size: clamp(2rem, 9vw, 4rem) !important;
+    flex: none;
+}
+
+.result-text {
+    font-size: clamp(1rem, 4vw, 1.5rem) !important;
+    margin-bottom: clamp(1rem, 4vw, 2rem) !important;
+    text-align: center;
+}
+
+.controls {
+    gap: clamp(0.75rem, 4vw, 1.5rem) !important;
+    flex-wrap: wrap;
+}
+
+.choice-btn {
+    width: clamp(56px, 18vw, 70px) !important;
+    height: clamp(56px, 18vw, 70px) !important;
+    min-height: 0;
+    padding: 0 !important;
+    font-size: clamp(1.5rem, 7vw, 2.5rem) !important;
+    flex: none;
+}
+
+/* Tic-Tac-Toe V2 */
+.top-bar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.turn-indicator {
+    font-size: clamp(0.9rem, 3.5vw, 1.25rem) !important;
+    text-align: center;
+}
+
+.board-container {
+    width: min(100%, 420px);
+    margin-inline: auto;
+}
+
+/* Tic-Tac-Toe V1. The board is a 3-column grid of aspect-ratio:1 buttons, so
+   constraining the width is enough — height follows on its own. Folding the
+   viewport height into the min() keeps the board on screen in landscape. */
+.game {
+    width: min(92vw, 60vh, 60dvh, 460px) !important;
+    height: auto !important;
+    margin-inline: auto;
+}
+
+.box {
+    font-size: clamp(2rem, 12vw, 4.5rem) !important;
+}
+
+.win-msg {
+    font-size: clamp(1.1rem, 5vw, 2rem) !important;
+    text-align: center;
+}
+
+/* Space Invaders ships an on-screen pad but hides it on any wide screen, so a
+   touch laptop or a tablet in landscape ends up with no controls at all. Bind
+   it to the input device instead of the width. */
+@media (pointer: coarse) {
+    .mobile-controls {
+        display: flex !important;
+    }
+}
+
+@media (pointer: fine) and (min-width: 768px) {
+    .mobile-controls {
+        display: none !important;
+    }
+}
+
+.ctrl-btn {
+    min-height: var(--tap);
+    padding: clamp(10px, 2.5vw, 15px) !important;
+}
+
+/* -- 6. Touch controls (injected by arcade-mobile.js) --------------------- */
+
+.arcade-pad {
+    display: none;
+    margin-top: clamp(0.6rem, 2.5vw, 1rem);
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* Only devices that actually need it get the pad. */
+@media (pointer: coarse) {
+    .arcade-pad {
+        display: grid;
+    }
+}
+
+.arcade-pad--dpad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+        ".    up    ."
+        "left down right";
+    gap: clamp(6px, 2vw, 10px);
+    width: min(100%, 260px);
+    margin-inline: auto;
+}
+
+.arcade-pad__btn {
+    -webkit-appearance: none;
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap);
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.arcade-pad__btn:active {
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(0.94);
+}
+
+body.light-theme .arcade-pad__btn {
+    border-color: rgba(0, 0, 0, 0.12);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.arcade-pad__btn[data-dir="up"]    { grid-area: up; }
+.arcade-pad__btn[data-dir="left"]  { grid-area: left; }
+.arcade-pad__btn[data-dir="down"]  { grid-area: down; }
+.arcade-pad__btn[data-dir="right"] { grid-area: right; }
+
+/* Hint shown under a swipe-enabled board. */
+.arcade-hint {
+    display: none;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+    opacity: 0.65;
+}
+
+@media (pointer: coarse) {
+    .arcade-hint {
+        display: block;
+    }
+}
+
+/* -- 7. Landscape + very small screens ------------------------------------ */
+
+/* Phone held sideways: vertical space is the scarce resource, so the header
+   collapses to a single compact line. */
+@media (orientation: landscape) and (max-height: 520px) {
+    main {
+        gap: 0.5rem !important;
+    }
+
+    main .header {
+        padding-top: 0;
+        margin-bottom: 0 !important;
+    }
+
+    main .header img,
+    .brand-logo {
+        display: none !important;
+    }
+
+    main .header h1,
+    main .header .glow-text {
+        font-size: clamp(1rem, 3.6vh, 1.4rem) !important;
+    }
+
+    .btn-back {
+        position: static !important;
+        min-height: 36px;
+        padding: 0.35rem 0.85rem !important;
+    }
+
+    .scoreboard,
+    .stats,
+    .score-board {
+        margin-bottom: 0.4rem !important;
+    }
+
+    /* Stacked label-over-value costs ~80px of the 360px available. Lay each
+       card out as one line instead and the board gets the height back. */
+    .score-card,
+    .stat-card {
+        display: flex !important;
+        align-items: baseline;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.6rem !important;
+    }
+
+    .score-card .label,
+    .stat-card .label {
+        font-size: 0.65rem !important;
+    }
+
+    .score-card .value,
+    .stat-card .value {
+        font-size: clamp(0.95rem, 3.2vh, 1.25rem) !important;
+    }
+
+    .glass-panel {
+        padding: 0.6rem !important;
+    }
+
+    [data-game="snake"] canvas,
+    [data-game="space"] .game-container {
+        width: min(100%, 60vh) !important;
+        width: min(100%, 60dvh) !important;
+    }
+
+    [data-game="breakout"] .game-container,
+    [data-game="pong"] .game-container {
+        width: min(100%, 80vh) !important;
+        width: min(100%, 80dvh) !important;
+    }
+
+    [data-game="flappy"] .game-container {
+        width: min(100%, 40vh) !important;
+        width: min(100%, 40dvh) !important;
+    }
+
+    .memory-grid {
+        max-height: min(58vh, 58dvh) !important;
+    }
+
+    .theme-toggle {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .arcade-pad--dpad {
+        width: min(100%, 200px);
+    }
+}
+
+/* When the layout genuinely cannot fit, scrolling beats clipping. */
+@media (max-width: 480px), (max-height: 560px) {
+    body {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        align-items: flex-start !important;
+        padding-top: calc(var(--safe-t) + 0.5rem);
+        padding-bottom: calc(var(--safe-b) + 0.5rem);
+    }
+}
+
+/* Narrow phones (iPhone SE and below): stack the two score cards. */
+@media (max-width: 360px) {
+    .scoreboard,
+    .stats {
+        flex-direction: column;
+    }
+
+    .btn-back {
+        padding: 0.45rem 0.75rem !important;
+        font-size: 0.85rem;
+    }
+}
+
+/* -- 8. Large & ultra-wide screens ---------------------------------------- */
+
+@media (min-width: 1440px) {
+    [data-game="snake"] canvas,
+    [data-game="space"] .game-container {
+        width: min(100%, 62vh) !important;
+        width: min(100%, 62dvh) !important;
+    }
+
+    [data-game="breakout"] .game-container,
+    [data-game="pong"] .game-container {
+        width: min(100%, 82vh) !important;
+        width: min(100%, 82dvh) !important;
+    }
+
+    .memory-grid {
+        max-height: min(64vh, 64dvh) !important;
+    }
+}
+
+/* Beyond ~1800px an unbounded board just looks stretched. */
+@media (min-width: 1800px) {
+    main {
+        width: min(100%, 1280px);
+    }
+}
+
+/* -- 9. Accessibility ------------------------------------------------------ */
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid #7dd3fc;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+body.light-theme a:focus-visible,
+body.light-theme button:focus-visible,
+body.light-theme [tabindex]:focus-visible {
+    outline-color: #0369a1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Hover effects on a touch screen stick after the tap, so gate them to real
+   pointers and keep mobile taps clean. */
+@media (hover: none) {
+    .game-card:hover,
+    .btn-primary:hover,
+    .choice-btn:hover,
+    .theme-toggle:hover {
+        transform: none !important;
+    }
+}
+
+/* -- 10. Back-to-arcade link (tic-tac-toe pages) --------------------------- */
+
+/* Both Tic-Tac-Toe versions shipped with no way back to the arcade, and their
+   stylesheets have no `.btn-back` rules, so this class carries the visuals
+   while `.btn-back` above supplies the shared sizing. */
+.btn-arcade-home {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.2s ease;
+}
+
+.btn-arcade-home:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+body.light-theme .btn-arcade-home {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* These two pages centre their title with no reserved band, so keep one at
+   every width rather than only below the mobile breakpoint. */
+.ttt-page main .header {
+    padding-top: 3.25rem;
+}
+
+@media (min-width: 861px) {
+    .ttt-page main .header {
+        padding-top: 0;
+    }
+}
+
+/* -- 11. Tic-Tac-Toe V1 fixed widths -------------------------------------- */
+
+/* V1 predates the rest of the collection and sizes several blocks in absolute
+   pixels (290px, 350px) plus a 100vw container, which overflows any phone
+   narrower than ~360px once the scrollbar and safe-area are accounted for. */
+.ttt-page .container {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+.ttt-page .win-msg {
+    width: min(100%, 350px) !important;
+    height: auto !important;
+    min-height: 35px;
+    padding: 0.4rem 0.75rem;
+    box-sizing: border-box;
+    margin-inline: auto;
+}
+
+.ttt-page .box-count {
+    width: min(100%, 290px) !important;
+    height: auto !important;
+    box-sizing: border-box;
+}
+
+.ttt-page .menu-btn {
+    width: min(100%, 290px) !important;
+    box-sizing: border-box;
+}
+
+/* `width: 90vw` measures against the viewport *including* the scrollbar, so on
+   a narrow screen the panel ends up a few pixels wider than the content box
+   and forces a horizontal scroll. `main` already supplies the gutter. */
+/* No display/flex here on purpose: `.menu-btn` already centres itself with
+   `margin: auto`, and a display rule at this specificity would outrank the
+   `.hidden` class the page uses to swap between menu and board. */
+.ttt-page .game-menu {
+    width: 100% !important;
+    max-width: 500px;
+    margin-inline: auto;
+    box-sizing: border-box;
+}
+
+.ttt-page .game-menu h2 {
+    font-size: clamp(1.1rem, 5vw, 1.8rem) !important;
+    margin-bottom: 1rem !important;
+}
+
+.ttt-page .container,
+.ttt-page .score-container,
+.ttt-page .game {
+    max-width: 100%;
+}
+
+.ttt-page .score-container {
+    width: min(100%, 400px) !important;
+}
+
+/* -- 12. Whack-a-Mole board ------------------------------------------------ */
+
+/* The board declares both `height: 100%` (inside a `flex: 1` parent) and
+   `aspect-ratio: 1/1`. Height wins, so the holes stretch into ovals on any
+   screen taller than it is wide. Drop the height and let the ratio decide. */
+[data-game="whack"] .grid {
+    height: auto !important;
+    width: min(100%, 60vh, 600px) !important;
+    width: min(100%, 60dvh, 600px) !important;
+    margin-block: auto;
+}
+
+/* -- 13. Visibility safety net --------------------------------------------- */
+
+/* Every game toggles views with `.hidden`. Layout overrides in this file are
+   specific enough to outrank a bare `.hidden { display: none }`, so make the
+   hide unconditional and keep the toggling working. */
+.hidden {
+    display: none !important;
+}

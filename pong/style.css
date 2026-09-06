@@ -14,6 +14,7 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     min-height: 100vh;
+    min-height: 100dvh; /* tracks the collapsing mobile URL bar */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +43,7 @@ main {
     z-index: 1;
     width: 97vw;
     height: 97vh;
+    height: 97dvh;
     max-width: none;
 }
 
@@ -131,7 +133,7 @@ canvas {
     height: auto;
     max-height: 55vh;
     margin: 0 auto;
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 4 / 3; /* matches the 800x600 drawing buffer in script.js */
     image-rendering: pixelated;
 }
 

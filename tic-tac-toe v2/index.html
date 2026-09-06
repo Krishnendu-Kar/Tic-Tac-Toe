@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
     <link rel="shortcut icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
     <link rel="apple-touch-icon" href="https://officialpic.vilarci.in/Icons/web-icon.png">
@@ -10,9 +10,11 @@
     <title>Tic Tac Toe - Next Level</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Tic Tac Toe.css">
+    <link rel="stylesheet" href="../arcade-responsive.css">
+    <meta name="theme-color" content="#0f0a1f">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body>
+<body class="ttt-page" data-game="tic-tac-toe">
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme" style="position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: inherit; backdrop-filter: blur(5px);">
         <i class="ph-duotone ph-sun" id="theme-icon" style="font-size: 1.5rem;"></i>
     </button>
@@ -22,7 +24,10 @@
     </div>
     
     <main>
-        <div style='display:flex; justify-content:center; align-items:center; margin-bottom: 1rem;'><img src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="Vilarci Logo" style="height: 50px; width: auto; border-radius: 12px; margin-right: 15px; vertical-align: middle;"><h1 class="glow-text">Tic Tac Toe</h1></div>
+        <div class="header">
+            <a href="../index.html" class="btn-back btn-arcade-home">← Arcade</a>
+            <div style='display:flex; justify-content:center; align-items:center; margin-bottom: 1rem;'><img src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="Vilarci Logo" style="height: 50px; width: auto; border-radius: 12px; margin-right: 15px; vertical-align: middle;"><h1 class="glow-text">Tic Tac Toe</h1></div>
+        </div>
 
         <!-- Menu View -->
         <div id="menu-view" class="glass-panel active">
@@ -74,6 +79,7 @@
     <script src="main.js"></script>
 <script src="../favicon.js"></script>
     <script src="../theme.js"></script>
+    <script src="../arcade-mobile.js"></script>
 </body>
 </html>
 

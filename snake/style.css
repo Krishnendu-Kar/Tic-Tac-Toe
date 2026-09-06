@@ -15,6 +15,7 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     min-height: 100vh;
+    min-height: 100dvh; /* tracks the collapsing mobile URL bar */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +44,7 @@ main {
     z-index: 1;
     width: 97vw;
     height: 97vh;
+    height: 97dvh;
     max-width: none;
 }
 

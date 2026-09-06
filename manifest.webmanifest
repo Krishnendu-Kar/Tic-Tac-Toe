@@ -1,0 +1,20 @@
+{
+  "name": "Retro Arcade Collection",
+  "short_name": "Retro Arcade",
+  "description": "Eleven browser games in one place. No install, no account, plays on any screen.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#06060a",
+  "theme_color": "#06060a",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "https://officialpic.vilarci.in/Icons/web-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

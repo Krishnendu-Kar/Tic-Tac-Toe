@@ -2,37 +2,158 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#06060a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f6f7f4" media="(prefers-color-scheme: light)">
+    <meta name="description" content="Eleven browser games in one place — Tic-Tac-Toe, Snake, 2048, Breakout, Space Invaders and more. No install, no account, plays on any screen.">
+
+    <title>Retro Arcade Collection</title>
+
     <link rel="icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
     <link rel="shortcut icon" type="image/png" href="https://officialpic.vilarci.in/Icons/web-icon.png">
     <link rel="apple-touch-icon" href="https://officialpic.vilarci.in/Icons/web-icon.png">
-    <link rel="canonical" href="https://officialpic.vilarci.in/Icons/web-icon.png">
-    <title>Retro Arcade Collection</title>
+    <link rel="manifest" href="manifest.webmanifest">
 
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Retro Arcade Collection">
+    <meta property="og:description" content="Eleven browser games in one place. No install, no account, plays on any screen.">
     <meta property="og:image" content="https://officialpic.vilarci.in/Icons/web-icon.png">
+    <meta name="twitter:card" content="summary">
 
-    <!-- Redirect to the new design -->
-    <meta http-equiv="refresh" content="0; url=new-design/Arcade-Website.dc.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="arcade-home.css">
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+
     <script>
-        window.location.replace("new-design/Arcade-Website.dc.html");
+        // Applied before first paint so a light-theme visitor never sees a
+        // dark flash. Falls back to the OS preference on a first visit.
+        (function () {
+            var saved = localStorage.getItem('arcadeTheme');
+            var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (saved === 'light' || (!saved && prefersLight)) {
+                document.documentElement.classList.add('light-theme');
+            }
+        })();
     </script>
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #08080a;
-            color: #f5f5f5;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            text-align: center;
-        }
-        a { color: #caff79; }
-    </style>
 </head>
 <body>
-    <p>Redirecting to the <a href="new-design/Arcade-Website.dc.html">Retro Arcade Collection</a>&hellip;</p>
+    <a class="skip-link" href="#games">Skip to games</a>
+
+    <div class="aurora" aria-hidden="true">
+        <div class="aurora__orb aurora__orb--1"></div>
+        <div class="aurora__orb aurora__orb--2"></div>
+        <div class="aurora__orb aurora__orb--3"></div>
+    </div>
+
+    <header class="topbar" id="topbar">
+        <div class="shell topbar__inner">
+            <div class="brand">
+                <img class="brand__mark" src="https://officialpic.vilarci.in/Icons/web-icon.png" alt="" width="42" height="42">
+                <p class="brand__name">Retro Arcade<span>Collection</span></p>
+            </div>
+
+            <div class="topbar__actions">
+                <button class="icon-btn" id="shuffle" type="button" aria-label="Play a random game" title="Play a random game">
+                    <i class="ph-duotone ph-shuffle" aria-hidden="true"></i>
+                </button>
+                <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme">
+                    <i class="ph-duotone ph-sun" id="theme-icon" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="shell hero">
+            <p class="eyebrow"><span class="eyebrow__dot"></span> 11 games · no install</p>
+
+            <h1 class="hero__title">Eleven games.<br>One <em>arcade</em>.</h1>
+
+            <p class="hero__lede">
+                Classics rebuilt for the browser — keyboard on a desktop, swipe and tap on a
+                phone, and everything in between. Nothing to download, nothing to sign up for.
+            </p>
+
+            <div class="hero__actions">
+                <a class="btn btn--primary" href="tic-tac-toe v2/index.html">
+                    <i class="ph-duotone ph-play" aria-hidden="true"></i> Play the featured game
+                </a>
+                <button class="btn btn--ghost" id="shuffle-hero" type="button">
+                    <i class="ph-duotone ph-dice-five" aria-hidden="true"></i> Surprise me
+                </button>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat__value">11</span>
+                    <span class="stat__label">Games</span>
+                </div>
+                <div class="stat">
+                    <span class="stat__value" id="stat-best">—</span>
+                    <span class="stat__label">Best score</span>
+                </div>
+                <div class="stat">
+                    <span class="stat__value">0</span>
+                    <span class="stat__label">Downloads</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="shell">
+            <div class="toolbar">
+                <div class="search">
+                    <i class="ph ph-magnifying-glass search__icon" aria-hidden="true"></i>
+                    <label class="visually-hidden" for="search">Search games</label>
+                    <input class="search__input" id="search" type="search" placeholder="Search games…" autocomplete="off">
+                </div>
+
+                <div class="chips" id="chips" role="group" aria-label="Filter by category">
+                    <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+                    <button class="chip" type="button" data-filter="classic" aria-pressed="false">Classics</button>
+                    <button class="chip" type="button" data-filter="arcade" aria-pressed="false">Arcade</button>
+                    <button class="chip" type="button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+                    <button class="chip" type="button" data-filter="reflex" aria-pressed="false">Reflex</button>
+                </div>
+            </div>
+
+            <div class="grid" id="games">
+                <!-- Cards are rendered by arcade-home.js from the GAMES list.
+                     The <noscript> block below is the no-JavaScript fallback. -->
+            </div>
+
+            <p class="empty" id="empty" hidden>No games match that search.</p>
+
+            <noscript>
+                <ul>
+                    <li><a href="tic-tac-toe v2/index.html">Tic-Tac-Toe V2</a></li>
+                    <li><a href="tic-tac-toe v1/index.html">Tic-Tac-Toe V1</a></li>
+                    <li><a href="snake/index.html">Neon Snake</a></li>
+                    <li><a href="2048/index.html">2048</a></li>
+                    <li><a href="memory/index.html">Memory Match</a></li>
+                    <li><a href="breakout/index.html">Neon Breakout</a></li>
+                    <li><a href="space/index.html">Space Invaders</a></li>
+                    <li><a href="pong/index.html">Neon Pong</a></li>
+                    <li><a href="flappy/index.html">Flappy Box</a></li>
+                    <li><a href="whack/index.html">Whack-a-Mole</a></li>
+                    <li><a href="rps/index.html">Rock Paper Scissors</a></li>
+                </ul>
+            </noscript>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="shell footer__inner">
+            <p>Built by Krishnendu · Retro Arcade Collection</p>
+            <nav class="footer__links" aria-label="Other versions">
+                <a href="old-version.html">Previous home page</a>
+                <a href="new-design/Arcade-Website.dc.html">Design concept</a>
+                <a href="https://github.com/Krishnendu-Kar/Tic-Tac-Toe">Source</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="arcade-home.js"></script>
 </body>
 </html>

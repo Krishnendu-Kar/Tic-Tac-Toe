@@ -1,0 +1,792 @@
+/* ==========================================================================
+   Retro Arcade Collection — Home / hub stylesheet
+   --------------------------------------------------------------------------
+   Fluid from a 320px phone to an ultra-wide desktop with three breakpoints
+   doing very little work: most of the scaling comes from clamp(), min() and
+   an auto-fill grid, so the layout never has a size it was not designed for.
+   ========================================================================== */
+
+/* -- Tokens ---------------------------------------------------------------- */
+
+:root {
+    color-scheme: dark;
+
+    --bg: #06060a;
+    --bg-elev: rgba(255, 255, 255, 0.035);
+    --bg-elev-hover: rgba(255, 255, 255, 0.06);
+    --line: rgba(255, 255, 255, 0.09);
+    --line-strong: rgba(255, 255, 255, 0.18);
+    --ink: #ffffff;
+    --ink-soft: #b9b9c6;
+    --ink-mute: #7d7d8c;
+    --accent: #caff79;
+    --accent-ink: #10130a;
+
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+
+    --tap: 44px;
+    --gutter: clamp(1rem, 4vw, 2.5rem);
+    --radius: clamp(18px, 2.5vw, 26px);
+    --shell: 1240px;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* The pre-paint script in index.html can only reach <html> (there is no <body>
+   yet), so both hooks resolve to the same token set. */
+body.light-theme,
+html.light-theme body {
+    color-scheme: light;
+
+    --bg: #f6f7f4;
+    --bg-elev: rgba(255, 255, 255, 0.86);
+    --bg-elev-hover: #ffffff;
+    --line: rgba(15, 23, 42, 0.1);
+    --line-strong: rgba(15, 23, 42, 0.2);
+    --ink: #0d0f14;
+    --ink-soft: #454b57;
+    --ink-mute: #6b7280;
+    --accent: #4d7c0f;
+    --accent-ink: #f7fee7;
+
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 18px 40px rgba(15, 23, 42, 0.09);
+}
+
+/* -- Base ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    padding-left: var(--safe-l);
+    padding-right: var(--safe-r);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 10px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.skip-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 300;
+    transform: translateY(-120%);
+    padding: 0.75rem 1.25rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+    border-radius: 0 0 12px 0;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* -- Ambient background ---------------------------------------------------- */
+
+.aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.aurora__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(clamp(60px, 12vw, 130px));
+    opacity: 0.5;
+    animation: drift 24s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.aurora__orb--1 {
+    width: 52vw;
+    height: 52vw;
+    top: -16vw;
+    left: -12vw;
+    background: rgba(202, 255, 121, 0.22);
+}
+
+.aurora__orb--2 {
+    width: 46vw;
+    height: 46vw;
+    right: -12vw;
+    bottom: -14vw;
+    background: rgba(236, 72, 153, 0.2);
+    animation-delay: -9s;
+}
+
+.aurora__orb--3 {
+    width: 38vw;
+    height: 38vw;
+    top: 38%;
+    left: 42%;
+    background: rgba(56, 189, 248, 0.16);
+    animation-delay: -17s;
+}
+
+/* Film grain: keeps the large flat areas from banding on cheap panels. */
+.aurora::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(6vw, 4vh) scale(1.18); }
+}
+
+/* -- Shell ----------------------------------------------------------------- */
+
+.shell {
+    width: min(100%, var(--shell));
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+/* -- Top bar --------------------------------------------------------------- */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding-top: calc(var(--safe-t) + 0.75rem);
+    padding-bottom: 0.75rem;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.topbar[data-stuck='true'] {
+    border-bottom-color: var(--line);
+}
+
+.topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+}
+
+.brand__mark {
+    width: clamp(34px, 8vw, 42px);
+    height: clamp(34px, 8vw, 42px);
+    border-radius: 12px;
+    flex: none;
+}
+
+.brand__name {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(0.95rem, 3.4vw, 1.15rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.brand__name span {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+}
+
+.topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: none;
+}
+
+.icon-btn {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--bg-elev);
+    color: var(--ink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: var(--bg-elev-hover);
+    border-color: var(--line-strong);
+}
+
+/* -- Hero ------------------------------------------------------------------ */
+
+.hero {
+    padding-block: clamp(2.5rem, 8vw, 5.5rem) clamp(1.75rem, 5vw, 3rem);
+    text-align: center;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-elev);
+    font-size: clamp(0.7rem, 2.6vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.eyebrow__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.hero__title {
+    margin-top: clamp(1rem, 3vw, 1.5rem);
+    font-family: 'Outfit', sans-serif;
+    /* 2.4rem on a 320px phone, 5.5rem on a large desktop, no jumps between. */
+    font-size: clamp(2.4rem, 1.2rem + 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+
+.hero__title em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+.hero__lede {
+    margin: clamp(0.85rem, 2.5vw, 1.25rem) auto 0;
+    max-width: 56ch;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 0.95rem + 0.5vw, 1.2rem);
+    text-wrap: pretty;
+}
+
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: var(--tap);
+    padding: 0.85rem clamp(1.25rem, 4vw, 1.9rem);
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+}
+
+.btn--ghost {
+    background: var(--bg-elev);
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+.btn--ghost:hover {
+    background: var(--bg-elev-hover);
+    border-color: var(--line-strong);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Stat strip: three across everywhere, because the numbers are short. */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+.stat {
+    padding: clamp(0.85rem, 2.5vw, 1.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    text-align: center;
+}
+
+.stat__value {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.5rem, 5.5vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.stat__label {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: clamp(0.68rem, 2.4vw, 0.8rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+}
+
+/* -- Filter bar ------------------------------------------------------------ */
+
+.toolbar {
+    position: sticky;
+    top: calc(var(--safe-t) + clamp(58px, 14vw, 70px));
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-block: 0.9rem;
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search__icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.15rem;
+    color: var(--ink-mute);
+    pointer-events: none;
+}
+
+.search__input {
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.75rem 1rem 0.75rem 2.9rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg-elev);
+    color: var(--ink);
+    /* 16px minimum stops iOS Safari zooming the page on focus. */
+    font: inherit;
+    font-size: max(1rem, 16px);
+}
+
+.search__input::placeholder {
+    color: var(--ink-mute);
+}
+
+.search__input:focus {
+    border-color: var(--line-strong);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Horizontal chip rail: scrolls on a phone, wraps from tablet up. */
+.chips {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    scroll-snap-type: x proximity;
+}
+
+.chips::-webkit-scrollbar {
+    display: none;
+}
+
+.chip {
+    flex: none;
+    min-height: 38px;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-elev);
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    scroll-snap-align: start;
+    touch-action: manipulation;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.chip[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+@media (min-width: 720px) {
+    .toolbar {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .search {
+        width: min(340px, 40%);
+        flex: none;
+    }
+
+    .chips {
+        flex-wrap: wrap;
+        overflow: visible;
+    }
+}
+
+/* -- Game grid ------------------------------------------------------------- */
+
+/* auto-fill + min() is what makes this work at every width: one column on a
+   320px phone, and as many 260px tracks as fit after that. No breakpoints. */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 258px), 1fr));
+    gap: clamp(0.85rem, 2.2vw, 1.5rem);
+    padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+.card {
+    container-type: inline-size;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: clamp(1.15rem, 3.5vw, 1.75rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease,
+                background 0.35s ease;
+}
+
+/* Accent wash, tinted per card via --accent-game. */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(120% 90% at 50% 0%,
+        color-mix(in srgb, var(--accent-game) 22%, transparent) 0%,
+        transparent 70%);
+    transition: opacity 0.35s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--accent-game) 45%, transparent);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+    opacity: 1;
+}
+
+.card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.card__icon {
+    display: grid;
+    place-items: center;
+    width: clamp(46px, 12cqi, 58px);
+    height: clamp(46px, 12cqi, 58px);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--accent-game) 16%, transparent);
+    color: var(--accent-game);
+    font-size: clamp(1.5rem, 7cqi, 1.9rem);
+    line-height: 1;
+    flex: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .card__icon {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.card__badge {
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    white-space: nowrap;
+}
+
+.card__badge--best {
+    border-color: color-mix(in srgb, var(--accent-game) 45%, transparent);
+    color: var(--accent-game);
+}
+
+.card__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.1rem, 6cqi, 1.4rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+.card__desc {
+    color: var(--ink-soft);
+    font-size: clamp(0.85rem, 4cqi, 0.95rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+
+.card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--ink-mute);
+}
+
+.card__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* The whole card is the hit area, but only the title is the real link, so
+   screen readers announce one target rather than a wall of duplicates. */
+.card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+/* `.card` sets display:flex, which outranks the UA stylesheet's [hidden]
+   rule, so filtering needs its own hide. */
+.card[hidden] {
+    display: none;
+}
+
+.empty {
+    padding: clamp(2.5rem, 8vw, 4rem) 1rem;
+    text-align: center;
+    color: var(--ink-mute);
+}
+
+.empty[hidden] {
+    display: none;
+}
+
+/* -- Footer ---------------------------------------------------------------- */
+
+.footer {
+    padding-block: clamp(2rem, 5vw, 3rem) calc(var(--safe-b) + clamp(2rem, 5vw, 3rem));
+    border-top: 1px solid var(--line);
+    color: var(--ink-mute);
+    font-size: 0.85rem;
+}
+
+.footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+}
+
+.footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.footer a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+}
+
+.footer a:hover {
+    color: var(--ink);
+}
+
+/* -- Short / landscape screens --------------------------------------------- */
+
+/* A phone in landscape has ~350px of height; the full hero would push the
+   games entirely below the fold. */
+@media (orientation: landscape) and (max-height: 520px) {
+    .hero {
+        padding-block: 1.5rem 1rem;
+    }
+
+    .hero__title {
+        font-size: clamp(1.6rem, 6vh, 2.4rem);
+    }
+
+    .hero__lede,
+    .stats {
+        display: none;
+    }
+
+    .toolbar {
+        position: static;
+    }
+}
+
+/* -- Ultra-wide ------------------------------------------------------------ */
+
+@media (min-width: 1800px) {
+    :root {
+        --shell: 1560px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+    }
+}
+
+/* -- Motion & pointer preferences ------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+@media (hover: none) {
+    .card:hover,
+    .btn:hover {
+        transform: none;
+    }
+
+    .card:hover::before {
+        opacity: 0;
+    }
+}
+
+/* Card presses should still feel responsive on touch. */
+.card:active {
+    transform: scale(0.985);
+}
+
+@media print {
+    .aurora,
+    .topbar__actions,
+    .toolbar,
+    .hero__actions {
+        display: none;
+    }
+}
